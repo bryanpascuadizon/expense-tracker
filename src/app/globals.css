@@ -15,13 +15,98 @@
     --background-end-rgb: 0, 0, 0;
   }
 }
-
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  font-family: "Roboto", serif !important;
+  @apply h-screen bg-white
+}
+
+.main_container {
+  @apply max-w-screen-xxxl m-auto
+}
+
+.main_sidebar, .main_content {
+  @apply xxl:p-5 xs:p-4
+}
+
+.sidebar_group {
+  @apply h-full
+}
+
+.sidebar_item {
+  @apply text-sm p-5 text-black flex rounded-xl
+}
+
+.sidebar_item {
+  @apply hover:bg-[#eeeeee]
+}
+
+.sidebar_icon {
+  @apply mr-2
+}
+
+.sidebar_text {
+  @apply self-center
+}
+
+.module_title {
+  @apply text-3xl text-black mb-5
+}
+
+.module_content {
+  @apply text-lg text-black;
+}
+
+.periodic_report_item {
+  @apply bg-[#eeeeee] rounded-xl m-3
+}
+
+.periodic_icon {
+  @apply p-5 self-center
+}
+
+.periodic_data {
+  @apply flex-grow p-3
+}
+
+.periodic_amount {
+  @apply text-2xl font-bold
+}
+
+.period {
+  @apply text-xs
+}
+
+.transaction_item, 
+.subscriptions_item {
+  height: fit-content;
+  @apply bg-[#eeeeee] m-3 rounded-xl p-5
+}
+
+.transactions_title, 
+.subscriptions_title {
+  @apply text-lg font-bold
+}
+
+.transactions_data_item, 
+.subscriptions_data_item {
+  @apply pt-3 pb-3 flex
+}
+
+.tdi_left_panel, 
+.sdi_left_panel {
+  @apply flex-grow
+}
+
+.tdi_right_panel, 
+.sdi_right_panel {
+  @apply self-center
+}
+
+.td_item_title, .td_item_price,
+.sd_item_title, .sd_item_price{
+  @apply font-bold text-sm
+}
+
+.td_item_date, .sd_item_date {
+  @apply font-bold text-xs
 }
