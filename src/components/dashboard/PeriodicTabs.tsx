@@ -9,7 +9,7 @@ const PeriodicTabs = () => {
         </div>
         <div className="periodic_data">
           <p className="periodic_amount">₱ 10,000.00</p>
-          <p className="period text-violet-600">Yearly</p>
+          <p className="period text-violet-500">Yearly</p>
         </div>
       </div>
       <div className="periodic_report_item flex">
@@ -18,7 +18,7 @@ const PeriodicTabs = () => {
         </div>
         <div className="periodic_data">
           <p className="periodic_amount">₱ 10,000.00</p>
-          <p className="period text-green-600">Monthly</p>
+          <p className="period text-green-500">Monthly</p>
         </div>
       </div>
       <div className="periodic_report_item flex">
@@ -27,7 +27,7 @@ const PeriodicTabs = () => {
         </div>
         <div className="periodic_data">
           <p className="periodic_amount">₱ 10,000.00</p>
-          <p className="period text-blue-600">Weekly</p>
+          <p className="period text-blue-500">Weekly</p>
         </div>
       </div>
       <div className="periodic_report_item flex">
@@ -36,7 +36,7 @@ const PeriodicTabs = () => {
         </div>
         <div className="periodic_data">
           <p className="periodic_amount">₱ 10,000.00</p>
-          <p className="period text-red-600">Daily</p>
+          <p className="period text-red-500">Daily</p>
         </div>
       </div>
     </section>

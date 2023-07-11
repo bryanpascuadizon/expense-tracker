@@ -9,24 +9,28 @@ const Sidebar = () => {
           <p className="material-symbols-outlined sidebar_icon">
             space_dashboard
           </p>
-          <p className="sidebar_text">Dashboard</p>
+          <p className="sidebar_text">Summary</p>
         </Link>
         <Link className="sidebar_item" href="/expenses">
           <p className="material-symbols-outlined sidebar_icon">wallet</p>
           <p className="sidebar_text">Expenses</p>
         </Link>
-        <Link className="sidebar_item" href="/budget_plans">
+        {/* <Link className="sidebar_item" href="/budget_plans">
           <p className="material-symbols-outlined sidebar_icon">menu_book</p>
           <p className="sidebar_text">Budget Plans</p>
-        </Link>
+        </Link> */}
         <Link className="sidebar_item" href="/manage_tags">
           <p className="material-symbols-outlined sidebar_icon">sell</p>
           <p className="sidebar_text">Manage Tags</p>
         </Link>
-        <Link className="sidebar_item" href="/reports">
+        <Link className="sidebar_item" href="/manage_tags">
+          <p className="material-symbols-outlined sidebar_icon">sell</p>
+          <p className="sidebar_text">Manage Subscriptions</p>
+        </Link>
+        {/* <Link className="sidebar_item" href="/reports">
           <p className="material-symbols-outlined sidebar_icon">lab_profile</p>
           <p className="sidebar_text">Generate Reports</p>
-        </Link>
+        </Link> */}
         <Link className="sidebar_item" href="/">
           <p className="material-symbols-outlined sidebar_icon">logout</p>
           <p className="sidebar_text">Logout</p>

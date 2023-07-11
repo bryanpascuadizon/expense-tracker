@@ -7,10 +7,10 @@ import React from "react";
 const Dashboard = () => {
   return (
     <>
-      <div className="module_title">Dashboard</div>
+      <div className="module_title">Summary</div>
       <div className="module_content">
         <PeriodicTabs />
-        <section className="transactions grid xxxl:grid-cols-4 xxl:grid-cols-3 xl:grid-cols-2 xxxs:grid-cols-1">
+        <section className="transactions grid xxxl:grid-cols-3 xxl:grid-cols-2 xl:grid-cols-2 xxxs:grid-cols-1">
           <LatestTransactions />
           <Subscriptions />
           <Tags />

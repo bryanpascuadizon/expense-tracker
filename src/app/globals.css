@@ -17,7 +17,7 @@
 }
 body {
   font-family: "Roboto", serif !important;
-  @apply h-screen bg-white
+  @apply h-screen
 }
 
 .main_container {
@@ -25,19 +25,19 @@ body {
 }
 
 .main_sidebar, .main_content {
-  @apply xxl:p-5 xs:p-4
+  @apply xxl:p-5 xs:p-4 bg-white
 }
 
 .sidebar_group {
-  @apply h-full
+  @apply h-full rounded-md bg-gray-100
 }
 
 .sidebar_item {
-  @apply text-sm p-5 text-black flex rounded-xl
+  @apply text-sm p-5 text-black flex rounded-sm
 }
 
 .sidebar_item {
-  @apply hover:bg-[#eeeeee]
+  @apply hover:bg-gray-200
 }
 
 .sidebar_icon {
@@ -57,7 +57,7 @@ body {
 }
 
 .periodic_report_item {
-  @apply bg-[#eeeeee] rounded-xl m-3
+  @apply bg-gray-100 rounded-md m-3
 }
 
 .periodic_icon {
@@ -76,10 +76,14 @@ body {
   @apply text-xs
 }
 
+.summary_see_more {
+  @apply text-xs self-center rounded-md bg-gray-100 p-2 font-bold
+}
+
 .transaction_item, 
 .subscriptions_item {
   height: fit-content;
-  @apply bg-[#eeeeee] m-3 rounded-xl p-5
+  @apply  m-3
 }
 
 .transactions_title, 
@@ -89,12 +93,18 @@ body {
 
 .transactions_data_item, 
 .subscriptions_data_item {
-  @apply pt-3 pb-3 flex
+  @apply pt-3 pb-3 pl-3  pr-3 flex mb-3 bg-gray-100 rounded-md
 }
 
+
 .tdi_left_panel, 
-.sdi_left_panel {
-  @apply flex-grow
+.sdi_left_panel{
+  @apply flex-grow self-center
+}
+
+.tdi_icon_panel,
+.sdi_icon_panel  {
+  @apply self-center mt-2 mr-5
 }
 
 .tdi_right_panel, 
@@ -103,10 +113,22 @@ body {
 }
 
 .td_item_title, .td_item_price,
-.sd_item_title, .sd_item_price{
+.sd_item_title, .sd_item_price {
   @apply font-bold text-sm
 }
 
+.td_item_price, .sd_item_price {
+  @apply text-right
+}
+
+.td_item_tag, .sd_item_tag{
+  @apply font-bold text-xs 
+}
+
+.sd_item_title {
+  @apply self-center
+}
+
 .td_item_date, .sd_item_date {
-  @apply font-bold text-xs
+  @apply font-bold text-xs text-right
 }
