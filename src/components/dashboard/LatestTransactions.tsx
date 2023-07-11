@@ -62,7 +62,6 @@ const LatestTransactions = () => {
               <p className="td_item_date">Feb, 03</p>
             </div>
           </div>
-
           <div className="transactions_data_item">
             <div className="tdi_icon_panel">
               <p className="material-symbols-outlined">payments</p>

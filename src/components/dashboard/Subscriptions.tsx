@@ -17,6 +17,7 @@ const Subscriptions = () => {
             </div>
             <div className="sdi_left_panel">
               <p className="sd_item_title">Spotify</p>
+              <p className="sd_item_tag text-green-500">Monthly</p>
             </div>
             <div className="sdi_right_panel">
               <p className="sd_item_price">₱ 800.00</p>
@@ -29,6 +30,7 @@ const Subscriptions = () => {
             </div>
             <div className="sdi_left_panel">
               <p className="sd_item_title">Netflix</p>
+              <p className="sd_item_tag text-red-500">Daily</p>
             </div>
             <div className="sdi_right_panel">
               <p className="sd_item_price">₱ 800.00</p>
@@ -40,7 +42,8 @@ const Subscriptions = () => {
               <p className="material-symbols-outlined">subscriptions</p>
             </div>
             <div className="sdi_left_panel">
-              <p className="sd_item_title">World Vision</p>
+              <p className="sd_item_title">Disney+</p>
+              <p className="sd_item_tag text-violet-500">Yearly</p>
             </div>
             <div className="sdi_right_panel">
               <p className="sd_item_price">₱ 800.00</p>
@@ -53,6 +56,20 @@ const Subscriptions = () => {
             </div>
             <div className="sdi_left_panel">
               <p className="sd_item_title">Youtube</p>
+              <p className="sd_item_tag text-green-500">Monthly</p>
+            </div>
+            <div className="sdi_right_panel">
+              <p className="sd_item_price">₱ 200.00</p>
+              <p className="sd_item_date">Next Billing: Feb, 03</p>
+            </div>
+          </div>
+          <div className="subscriptions_data_item">
+            <div className="sdi_icon_panel">
+              <p className="material-symbols-outlined">subscriptions</p>
+            </div>
+            <div className="sdi_left_panel">
+              <p className="sd_item_title">Amazon Prime</p>
+              <p className="sd_item_tag text-blue-500">Weekly</p>
             </div>
             <div className="sdi_right_panel">
               <p className="sd_item_price">₱ 200.00</p>

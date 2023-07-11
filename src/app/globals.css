@@ -92,36 +92,43 @@ body {
 }
 
 .transactions_data_item, 
-.subscriptions_data_item {
+.subscriptions_data_item,
+.expense_data_item {
   @apply pt-3 pb-3 pl-3  pr-3 flex mb-3 bg-gray-100 rounded-md
 }
 
 
 .tdi_left_panel, 
-.sdi_left_panel{
+.sdi_left_panel, 
+.expense_left_panel{
   @apply flex-grow self-center
 }
 
 .tdi_icon_panel,
-.sdi_icon_panel  {
+.sdi_icon_panel,
+.expense_icon_panel  {
   @apply self-center mt-2 mr-5
 }
 
 .tdi_right_panel, 
-.sdi_right_panel {
+.sdi_right_panel,
+.expense_right_panel {
   @apply self-center
 }
 
 .td_item_title, .td_item_price,
-.sd_item_title, .sd_item_price {
+.sd_item_title, .sd_item_price,
+.expense_item_title, .expense_item_price {
   @apply font-bold text-sm
 }
 
-.td_item_price, .sd_item_price {
+.td_item_price, .sd_item_price,
+.expense_item_price {
   @apply text-right
 }
 
-.td_item_tag, .sd_item_tag{
+.td_item_tag, .sd_item_tag,
+.expense_item_tag{
   @apply font-bold text-xs 
 }
 
@@ -129,6 +136,7 @@ body {
   @apply self-center
 }
 
-.td_item_date, .sd_item_date {
+.td_item_date, .sd_item_date, 
+.expense_item_date {
   @apply font-bold text-xs text-right
 }
