@@ -23,10 +23,12 @@ const Sidebar = () => {
           <p className="material-symbols-outlined sidebar_icon">sell</p>
           <p className="sidebar_text">Manage Tags</p>
         </Link>
-        <Link className="sidebar_item" href="/manage_tags">
-          <p className="material-symbols-outlined sidebar_icon">sell</p>
+        {/* <Link className="sidebar_item" href="/manage_tags">
+          <p className="material-symbols-outlined sidebar_icon">
+            subscriptions
+          </p>
           <p className="sidebar_text">Manage Subscriptions</p>
-        </Link>
+        </Link> */}
         {/* <Link className="sidebar_item" href="/reports">
           <p className="material-symbols-outlined sidebar_icon">lab_profile</p>
           <p className="sidebar_text">Generate Reports</p>

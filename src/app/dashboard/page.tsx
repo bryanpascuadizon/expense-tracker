@@ -12,8 +12,8 @@ const Dashboard = () => {
         <PeriodicTabs />
         <section className="transactions grid xxxl:grid-cols-3 xxl:grid-cols-2 xl:grid-cols-2 xxxs:grid-cols-1">
           <LatestTransactions />
-          <Subscriptions />
-          <Tags />
+          {/* <Subscriptions /> */}
+          {/* <Tags /> */}
         </section>
       </div>
     </>

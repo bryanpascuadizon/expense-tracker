@@ -17,7 +17,7 @@ const Subscriptions = () => {
             </div>
             <div className="sdi_left_panel">
               <p className="sd_item_title">Spotify</p>
-              <p className="sd_item_tag text-green-500">Monthly</p>
+              <p className="sd_item_tag">Monthly</p>
             </div>
             <div className="sdi_right_panel">
               <p className="sd_item_price">₱ 800.00</p>
@@ -30,7 +30,7 @@ const Subscriptions = () => {
             </div>
             <div className="sdi_left_panel">
               <p className="sd_item_title">Netflix</p>
-              <p className="sd_item_tag text-red-500">Daily</p>
+              <p className="sd_item_tag">Daily</p>
             </div>
             <div className="sdi_right_panel">
               <p className="sd_item_price">₱ 800.00</p>
@@ -43,7 +43,7 @@ const Subscriptions = () => {
             </div>
             <div className="sdi_left_panel">
               <p className="sd_item_title">Disney+</p>
-              <p className="sd_item_tag text-violet-500">Yearly</p>
+              <p className="sd_item_tag">Yearly</p>
             </div>
             <div className="sdi_right_panel">
               <p className="sd_item_price">₱ 800.00</p>
@@ -56,7 +56,7 @@ const Subscriptions = () => {
             </div>
             <div className="sdi_left_panel">
               <p className="sd_item_title">Youtube</p>
-              <p className="sd_item_tag text-green-500">Monthly</p>
+              <p className="sd_item_tag">Monthly</p>
             </div>
             <div className="sdi_right_panel">
               <p className="sd_item_price">₱ 200.00</p>
@@ -69,7 +69,7 @@ const Subscriptions = () => {
             </div>
             <div className="sdi_left_panel">
               <p className="sd_item_title">Amazon Prime</p>
-              <p className="sd_item_tag text-blue-500">Weekly</p>
+              <p className="sd_item_tag">Weekly</p>
             </div>
             <div className="sdi_right_panel">
               <p className="sd_item_price">₱ 200.00</p>

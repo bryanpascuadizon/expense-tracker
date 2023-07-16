@@ -73,7 +73,7 @@ body {
 }
 
 .period {
-  @apply text-xs
+  @apply text-xs font-bold
 }
 
 .summary_see_more {
@@ -138,5 +138,5 @@ body {
 
 .td_item_date, .sd_item_date, 
 .expense_item_date {
-  @apply font-bold text-xs text-right
+  @apply font-bold text-xs text-right font-bold
 }
