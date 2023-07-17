@@ -2,7 +2,7 @@
 
 import ListofTags from "@/components/tags/ListofTags";
 import { getUserId } from "@/lib/LoginActions";
-import { getTagList } from "@/lib/TagActions";
+import { getUserTagList } from "@/lib/TagActions";
 import { populateTags } from "@/utils/reducers/tagReducer";
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -12,7 +12,7 @@ const ManageTags = () => {
   useEffect(() => {
     const fetchTagList = async () => {
       const userId: string | null | undefined = getUserId();
-      const tagList = await getTagList(userId);
+      const tagList = await getUserTagList(userId);
       dispatch(populateTags(tagList));
     };
 

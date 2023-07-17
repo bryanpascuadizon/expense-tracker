@@ -31,16 +31,16 @@ const ListofTags = () => {
             Add Tag
           </button>
         </div>
-        {tagList && tagList.tags.length > 0 ? (
-          <table className="expense_table table-auto w-full bg-gray-100 rounded-md">
-            <thead className="expense_thead">
-              <tr>
-                <th className="text-sm p-5">Name</th>
-                <th className="text-sm p-5">Color</th>
-                <th className="text-sm p-5">Edit</th>
-                <th className="text-sm p-5">Delete</th>
-              </tr>
-            </thead>
+        <table className="expense_table table-auto w-full bg-gray-100 rounded-md">
+          <thead className="expense_thead">
+            <tr>
+              <th className="text-sm p-5">Name</th>
+              <th className="text-sm p-5">Color</th>
+              <th className="text-sm p-5">Edit</th>
+              <th className="text-sm p-5">Delete</th>
+            </tr>
+          </thead>
+          {tagList && tagList.tags.length > 0 ? (
             <tbody>
               {tagList.tags.map(
                 (tag: { _id: string; name: string; color: string }) => (
@@ -93,9 +93,14 @@ const ListofTags = () => {
                 )
               )}
             </tbody>
-          </table>
+          ) : (
+            <></>
+          )}
+        </table>
+        {tagList.tags.length === 0 ? (
+          <p className="text-sm text-center w-full p-5">No tags added...</p>
         ) : (
-          <p className="text-sm">No tags added...</p>
+          ""
         )}
       </div>
       <TagDialog

@@ -9,15 +9,20 @@ const ExpenseSchema = new Schema({
     type: Number,
     required: ["Amount is required", true],
   },
-  dateOfTransction: {
+  dateOfTransaction: {
     type: Date,
     required: ["Date of Transaction is required", true],
   },
   type: {
-    type: Schema.Types.ObjectId,
+    type: String,
   },
   tag: {
     type: Schema.Types.ObjectId,
+    ref: "Tags",
+  },
+  user_id: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
   },
 });
 

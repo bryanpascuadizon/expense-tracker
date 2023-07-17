@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const getTagList = async (userId: string | null | undefined) => {
+export const getUserTagList = async (userId: string | null | undefined) => {
   try {
     const tagList = await axios.get(`/api/tags/${userId}`);
 
@@ -10,6 +10,6 @@ export const getTagList = async (userId: string | null | undefined) => {
 
     return tagList.data;
   } catch (error) {
-    console.error("Get Tags Error: ", error);
+    console.error("Get User Tags Error: ", error);
   }
 };

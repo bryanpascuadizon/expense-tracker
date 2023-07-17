@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import TagIcons from "./TagIcons";
 import { getUserId } from "@/lib/LoginActions";
 import axios from "axios";
-import { getTagList } from "@/lib/TagActions";
+import { getUserTagList } from "@/lib/TagActions";
 import { useDispatch } from "react-redux";
 import { populateTags } from "@/utils/reducers/tagReducer";
 
@@ -21,15 +21,13 @@ const TagDialog = ({ tagItem, show, type, setShow }: TagDialogProps) => {
   const [tags, setTags] = useState({
     id: "",
     name: "",
-    color: "#d32f2f",
+    color: "#f44336",
   });
   const { id, name, color } = tags;
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (type === "Edit" || type === "Delete") {
-      console.log("Type: ", type);
-      console.log("Tag Item: ", tagItem);
       setTags({
         id: tagItem ? tagItem.id : "",
         name: tagItem ? tagItem.name : "",
@@ -62,7 +60,7 @@ const TagDialog = ({ tagItem, show, type, setShow }: TagDialogProps) => {
       });
 
       if (tagRequest.status === 200) {
-        const tagList = await getTagList(userId);
+        const tagList = await getUserTagList(userId);
         dispatch(populateTags(tagList));
         setShow(false);
       }
@@ -78,7 +76,7 @@ const TagDialog = ({ tagItem, show, type, setShow }: TagDialogProps) => {
         tags,
       });
       if (tagRequest.status === 200) {
-        const tagList = await getTagList(userId);
+        const tagList = await getUserTagList(userId);
         dispatch(populateTags(tagList));
         setTags({
           id: "",
@@ -98,7 +96,7 @@ const TagDialog = ({ tagItem, show, type, setShow }: TagDialogProps) => {
       const tagRequest = await axios.delete(`/api/tags/${id}`);
 
       if (tagRequest.status === 200) {
-        const tagList = await getTagList(userId);
+        const tagList = await getUserTagList(userId);
         dispatch(populateTags(tagList));
         setShow(false);
       }
@@ -108,11 +106,11 @@ const TagDialog = ({ tagItem, show, type, setShow }: TagDialogProps) => {
   };
 
   return show ? (
-    <div className="absolute top-0 left-0 bottom-0 bg-gray-400 bg-opacity-50 z-10 w-full h-full">
+    <div className="fixed top-0 left-0 bottom-0 bg-gray-400 bg-opacity-50 z-10 w-full h-full overflow-auto">
       {/* Modal Content */}
       <div className="rounded-md bg-gray-100 shadow m-auto mt-20 max-w-md">
         {/* Modal Title */}
-        <div className="p-5 border border-b-gray-200">
+        <div className="p-5 border-b border-b-gray-200">
           <p className="text-xl">
             {type === "Add"
               ? "Add Tag"
@@ -153,7 +151,7 @@ const TagDialog = ({ tagItem, show, type, setShow }: TagDialogProps) => {
           )}
         </div>
         {/* Modal Footer */}
-        <div className="flex flex-row-reverse p-5">
+        <div className="flex flex-row-reverse p-5 border-t border-t-gray-200">
           <button
             className="text-sm pt-3 pb-3 pl-5 pr-5 bg-grey-900 rounded-md text-white"
             onClick={
