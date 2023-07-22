@@ -52,6 +52,15 @@ const TagDialog = ({ tagItem, show, type, setShow }: TagDialogProps) => {
     });
   };
 
+  const handleOnCancel = () => {
+    setTags({
+      id: "",
+      name: "",
+      color: "#f44336",
+    });
+    setShow(false);
+  };
+
   const handleEditSubmit = async () => {
     try {
       const userId = getUserId();
@@ -62,6 +71,11 @@ const TagDialog = ({ tagItem, show, type, setShow }: TagDialogProps) => {
       if (tagRequest.status === 200) {
         const tagList = await getUserTagList(userId);
         dispatch(populateTags(tagList));
+        setTags({
+          id: "",
+          name: "",
+          color: "#f44336",
+        });
         setShow(false);
       }
     } catch (error) {
@@ -81,7 +95,7 @@ const TagDialog = ({ tagItem, show, type, setShow }: TagDialogProps) => {
         setTags({
           id: "",
           name: "",
-          color: "#d32f2f",
+          color: "#f44336",
         });
         setShow(false);
       }
@@ -98,6 +112,11 @@ const TagDialog = ({ tagItem, show, type, setShow }: TagDialogProps) => {
       if (tagRequest.status === 200) {
         const tagList = await getUserTagList(userId);
         dispatch(populateTags(tagList));
+        setTags({
+          id: "",
+          name: "",
+          color: "#f44336",
+        });
         setShow(false);
       }
     } catch (error) {
@@ -166,7 +185,7 @@ const TagDialog = ({ tagItem, show, type, setShow }: TagDialogProps) => {
           </button>
           <button
             className="text-sm pt-3 pb-3 pl-5 pr-5 bg-grey-300 rounded-md text-black mr-3"
-            onClick={() => setShow(false)}
+            onClick={handleOnCancel}
           >
             Cancel
           </button>

@@ -1,11 +1,11 @@
 import React from "react";
 
-const LatestTransactions = () => {
+const LatestExpenses = () => {
   return (
     <>
       <div className="transaction_item xl:col-span-1 lg:col-span-2">
         <div className="flex mb-3">
-          <p className="transactions_title flex-grow self-center">Latest Transactions</p>
+          <p className="transactions_title flex-grow self-center">Latest Expenses</p>
           <p className="summary_see_more">See More</p>
         </div>
 
@@ -81,4 +81,4 @@ const LatestTransactions = () => {
   );
 };
 
-export default LatestTransactions;
+export default LatestExpenses;
