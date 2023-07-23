@@ -1,5 +1,6 @@
 import Expense from "@/models/expense";
 import { connectToDB } from "@/utils/database";
+import moment from "moment";
 import { NextRequest, NextResponse } from "next/server";
 
 interface ParamsProps {
@@ -18,7 +19,13 @@ export const GET = async (req: NextRequest, { params }: ParamsProps) => {
       return new NextResponse("No expenses found", { status: 404 });
     }
 
-    return new NextResponse(JSON.stringify(expenses), { status: 200 });
+    const filterExpenses = expenses.sort((a, b) => {
+      const dateA: any = moment(a.dateOfTransaction);
+      const dateB: any = moment(b.dateOfTransaction);
+      return dateB - dateA;
+    });
+
+    return new NextResponse(JSON.stringify(filterExpenses), { status: 200 });
   } catch (error) {
     return new NextResponse(`Failed to get Expense List: ${error}`, {
       status: 500,

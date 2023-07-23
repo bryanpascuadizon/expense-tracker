@@ -17,15 +17,15 @@
 }
 body {
   font-family: "Roboto", serif !important;
-  @apply h-screen
+  @apply h-screen 
 }
 
 .main_container {
-  @apply max-w-screen-xxxl m-auto
+  @apply max-w-screen-xxxl m-auto 
 }
 
 .main_sidebar, .main_content {
-  @apply xxl:p-5 xs:p-4 bg-white
+  @apply xxl:p-5 xs:p-4 bg-gray-200
 }
 
 .sidebar_group {

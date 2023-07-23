@@ -1,10 +1,10 @@
 "use client";
 
 import { getUserPeriodicReportList } from "@/lib/ExpenseActions";
-import { getUserId } from "@/lib/LoginActions";
+import { ExpenseList } from "@/utils/types";
 import React, { useEffect, useState } from "react";
 
-const PeriodicTabs = () => {
+const PeriodicTabs = (expenseList: ExpenseList) => {
   const [periodicReportList, setPeriodicReportList] = useState({
     daily: 0,
     weekly: 0,
@@ -14,8 +14,7 @@ const PeriodicTabs = () => {
 
   useEffect(() => {
     const fetchReportList = async () => {
-      const userId = getUserId();
-      const data: any = await getUserPeriodicReportList(userId);
+      const data: any = await getUserPeriodicReportList(expenseList);
       setPeriodicReportList({
         daily: data ? data?.dailyCompute : 0.0,
         weekly: data ? data?.weeklyCompute : 0.0,
@@ -25,7 +24,7 @@ const PeriodicTabs = () => {
     };
 
     fetchReportList();
-  }, []);
+  }, [expenseList]);
 
   return (
     <section className="periodic_reports grid xxxl:grid-cols-4 xxl:grid-cols-3 xl:grid-cols-2  xxxs:grid-cols-1 mb-5">
@@ -34,7 +33,9 @@ const PeriodicTabs = () => {
           calendar_month
         </div>
         <div className="periodic_data">
-          <p className="periodic_amount">₱ {periodicReportList.daily}</p>
+          <p className="periodic_amount">
+            ₱ {periodicReportList.daily.toFixed(2)}
+          </p>
           <p className="period text-blue-600">Daily</p>
         </div>
       </div>
@@ -43,7 +44,9 @@ const PeriodicTabs = () => {
           calendar_month
         </div>
         <div className="periodic_data">
-          <p className="periodic_amount">₱ {periodicReportList.weekly}</p>
+          <p className="periodic_amount">
+            ₱ {periodicReportList.weekly.toFixed(2)}
+          </p>
           <p className="period text-blue-600">Weekly</p>
         </div>
       </div>
@@ -52,7 +55,9 @@ const PeriodicTabs = () => {
           calendar_month
         </div>
         <div className="periodic_data">
-          <p className="periodic_amount">₱ {periodicReportList.monthly}</p>
+          <p className="periodic_amount">
+            ₱ {periodicReportList.monthly.toFixed(2)}
+          </p>
           <p className="period text-blue-600">Monthly</p>
         </div>
       </div>
@@ -61,7 +66,9 @@ const PeriodicTabs = () => {
           calendar_month
         </div>
         <div className="periodic_data">
-          <p className="periodic_amount">₱ {periodicReportList.yearly}</p>
+          <p className="periodic_amount">
+            ₱ {periodicReportList.yearly.toFixed(2)}
+          </p>
           <p className="period text-blue-600">Yearly</p>
         </div>
       </div>
