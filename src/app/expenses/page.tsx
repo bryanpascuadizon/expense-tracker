@@ -1,7 +1,7 @@
 "use client";
 import ListOfExpenses from "@/components/expenses/ListOfExpenses";
 import { getUserExpenseList } from "@/lib/ExpenseActions";
-import { getUserId } from "@/lib/LoginActions";
+import { getUserId } from "@/lib/Auth";
 import { populateExpenses } from "@/utils/reducers/expenseReducer";
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";

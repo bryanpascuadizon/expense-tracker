@@ -3,7 +3,6 @@ import moment from "moment";
 import React from "react";
 
 const LatestExpenses = (expenseList: ExpenseList) => {
-  console.log(expenseList);
   return (
     <>
       <div className="transaction_item xl:col-span-1 lg:col-span-2">

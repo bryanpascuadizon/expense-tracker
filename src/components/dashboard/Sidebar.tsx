@@ -1,7 +1,24 @@
+"use client";
+
+import axios from "axios";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 const Sidebar = () => {
+  const router = useRouter();
+  const handleLogout = async () => {
+    try {
+      const logoutRequest = axios.post("/api/logout");
+
+      if ((await logoutRequest).status === 200) {
+        localStorage.removeItem("user-id");
+        router.push("/login");
+      }
+    } catch (error) {
+      router.push("/login");
+    }
+  };
   return (
     <>
       <div className="sidebar_group">
@@ -33,10 +50,10 @@ const Sidebar = () => {
           <p className="material-symbols-outlined sidebar_icon">lab_profile</p>
           <p className="sidebar_text">Generate Reports</p>
         </Link> */}
-        <Link className="sidebar_item" href="/">
+        <div className="sidebar_item cursor-pointer" onClick={handleLogout}>
           <p className="material-symbols-outlined sidebar_icon">logout</p>
           <p className="sidebar_text">Logout</p>
-        </Link>
+        </div>
       </div>
     </>
   );

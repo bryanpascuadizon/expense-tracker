@@ -1,7 +1,7 @@
 "use client";
 
 import ListofTags from "@/components/tags/ListofTags";
-import { getUserId } from "@/lib/LoginActions";
+import { getUserId } from "@/lib/Auth";
 import { getUserTagList } from "@/lib/TagActions";
 import { populateTags } from "@/utils/reducers/tagReducer";
 import React, { useEffect } from "react";

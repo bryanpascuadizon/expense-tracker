@@ -16,3 +16,8 @@ export interface ExpenseList {
     }
   ];
 }
+
+export interface UserJWTPayload {
+  jti: string;
+  iat: number;
+}

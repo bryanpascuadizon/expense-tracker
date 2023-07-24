@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import moment from "moment";
-import { getUserId } from "@/lib/LoginActions";
+import { getUserId } from "@/lib/Auth";
 import { getUserTagList } from "@/lib/TagActions";
 import axios from "axios";
 import { populateExpenses } from "@/utils/reducers/expenseReducer";

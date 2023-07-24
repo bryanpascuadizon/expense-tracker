@@ -65,7 +65,9 @@ export const computePeriodicExpenses = (
       : "day"
   );
 
-  const filterExpenseList = expenseList.data.filter(
+  let finalExpensList = expenseList.data === undefined ? [] : expenseList.data;
+
+  const filterExpenseList = finalExpensList.filter(
     (item) =>
       moment(item.dateOfTransaction) >= startPeriod &&
       moment(item.dateOfTransaction) <= endPeriod

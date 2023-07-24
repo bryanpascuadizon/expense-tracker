@@ -3,8 +3,7 @@
 import LatestExpenses from "@/components/dashboard/LatestExpenses";
 import PeriodicTabs from "@/components/dashboard/PeriodicTabs";
 import { getUserExpenseList } from "@/lib/ExpenseActions";
-import { getUserId } from "@/lib/LoginActions";
-import { ExpenseList } from "@/utils/types";
+import { getUserId } from "@/lib/Auth";
 import React, { useEffect, useState } from "react";
 
 const Dashboard = () => {

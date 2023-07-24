@@ -1,15 +1,18 @@
 "use client";
 
+import { authorizeUser } from "@/utils/reducers/authReducer";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 
-const Login = () => {
+const LoginForm = () => {
   const [login, setLogin] = useState({
     username: "",
     password: "",
   });
   const router = useRouter();
+  const dispatch = useDispatch();
   const { username, password } = login;
 
   const handleOnChange = (e: any) => {
@@ -29,6 +32,7 @@ const Login = () => {
 
       if (loginRequest.status === 200) {
         localStorage.setItem("user-id", loginRequest.data._id.toString());
+        dispatch(authorizeUser());
         router.push("/dashboard");
       }
     } catch (error) {
@@ -36,14 +40,14 @@ const Login = () => {
     }
   };
   return (
-    <div className="rounded-md bg-gray-200 p-3 max-w-screen-md">
+    <div className="rounded-md bg-gray-200 p-3 max-w-screen-md m-auto mt-[10%]">
       <input
         type="text"
         name="username"
         value={username}
         onChange={handleOnChange}
         placeholder="Username"
-        className="mb-3 w-full text-sm p-2 rounded-md"
+        className="mb-3 w-full text-sm p-2 rounded-md text-center"
       />
       <input
         type="password"
@@ -51,11 +55,11 @@ const Login = () => {
         value={password}
         onChange={handleOnChange}
         placeholder="Password"
-        className="mb-3 w-full text-sm p-2 rounded-md"
+        className="mb-3 w-full text-sm p-2 rounded-md text-center"
       />
       <button
         onClick={handleLogin}
-        className="bg-gray-900 text-sm text-white p-2 rounded-md block"
+        className="bg-gray-900 text-sm text-white pt-2 pb-2 pl-5 pr-5 rounded-md block m-auto"
       >
         Login
       </button>
@@ -63,4 +67,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginForm;

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import TagIcons from "./TagIcons";
-import { getUserId } from "@/lib/LoginActions";
+import { getUserId } from "@/lib/Auth";
 import axios from "axios";
 import { getUserTagList } from "@/lib/TagActions";
 import { useDispatch } from "react-redux";

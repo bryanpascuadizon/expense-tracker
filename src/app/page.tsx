@@ -1,18 +1,18 @@
-"use client"
+"use client";
 
-import Login from "@/components/login/Login";
+import LoginForm from "@/components/login/LoginForm";
+import Login from "@/components/login/LoginForm";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 
 const Home = () => {
-
-  const router = useRouter();
-  useEffect(() => {
-    router.push("/")
-  }, [])
+  // const router = useRouter();
+  // useEffect(() => {
+  //   router.push("/login");
+  // }, []);
   return (
     <div>
-      <Login />
+      <LoginForm />
     </div>
   );
 };
