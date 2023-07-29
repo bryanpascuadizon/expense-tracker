@@ -1,5 +1,6 @@
 import Expense from "@/models/expense";
 import { connectToDB } from "@/utils/database";
+import { ExpenseType } from "@/utils/types";
 import moment from "moment";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -14,7 +15,6 @@ export const GET = async (req: NextRequest, { params }: ParamsProps) => {
   try {
     await connectToDB();
     const expenses = await Expense.find({ user_id: params.id }).populate("tag");
-
     if (!expenses) {
       return new NextResponse("No expenses found", { status: 404 });
     }
@@ -36,16 +36,16 @@ export const GET = async (req: NextRequest, { params }: ParamsProps) => {
 // POST an expense  of the user
 export const POST = async (req: NextRequest, { params }: ParamsProps) => {
   try {
-    const data = await req.json();
+    const { expense } = await req.json();
     await connectToDB();
-    const { name, amount, dateOfTransaction, expenseType, expenseTag } =
-      data.expense;
+    const { name, amount, dateOfTransaction, type, tag } =
+      expense as ExpenseType;
     const expenseData = await new Expense({
       name,
       amount,
       dateOfTransaction,
-      type: expenseType,
-      tag: expenseTag,
+      type: type,
+      tag: tag._id,
       user_id: params.id,
     });
 
@@ -62,18 +62,18 @@ export const POST = async (req: NextRequest, { params }: ParamsProps) => {
 // UPDATE and expense of the user
 export const PATCH = async (req: NextRequest) => {
   try {
-    const data = await req.json();
+    const { expense } = await req.json();
     await connectToDB();
-    const { id, name, amount, dateOfTransaction, expenseType, expenseTag } =
-      data.expenseItem;
+    const { _id, name, amount, dateOfTransaction, type, tag } =
+      expense as ExpenseType;
 
-    const existingExpense = await Expense.findById(id);
+    const existingExpense = await Expense.findById(_id);
 
     existingExpense.name = name;
     existingExpense.amount = amount;
     existingExpense.dateOfTransaction = dateOfTransaction;
-    existingExpense.type = expenseType;
-    existingExpense.tag = expenseTag;
+    existingExpense.type = type;
+    existingExpense.tag = tag;
     existingExpense.save();
 
     return new NextResponse(JSON.stringify(existingExpense), { status: 200 });

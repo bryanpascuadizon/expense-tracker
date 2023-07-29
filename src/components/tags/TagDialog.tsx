@@ -1,10 +1,13 @@
+//REACT IMPORTS
 import React, { useEffect, useState } from "react";
+
+//COMPONENTS
 import TagIcons from "./TagIcons";
-import { getUserId } from "@/lib/Auth";
-import axios from "axios";
-import { getUserTagList } from "@/lib/TagActions";
-import { useDispatch } from "react-redux";
-import { populateTags } from "@/utils/reducers/tagReducer";
+
+//UTILS
+import { useTagMutation, useTagQuery } from "@/utils/hooks/tag";
+import { ADD, DELETE, EDIT } from "@/utils/constants";
+import { TagType } from "@/utils/types";
 
 interface TagDialogProps {
   tagItem?: {
@@ -24,7 +27,8 @@ const TagDialog = ({ tagItem, show, type, setShow }: TagDialogProps) => {
     color: "#f44336",
   });
   const { id, name, color } = tags;
-  const dispatch = useDispatch();
+  const { mutate } = useTagMutation();
+  const { refetch } = useTagQuery();
 
   useEffect(() => {
     if (type === "Edit" || type === "Delete") {
@@ -62,66 +66,88 @@ const TagDialog = ({ tagItem, show, type, setShow }: TagDialogProps) => {
   };
 
   const handleEditSubmit = async () => {
-    try {
-      const userId = getUserId();
-      const tagRequest = await axios.patch(`/api/tags/${id}`, {
-        tags,
-      });
-
-      if (tagRequest.status === 200) {
-        const tagList = await getUserTagList(userId);
-        dispatch(populateTags(tagList));
-        setTags({
-          id: "",
-          name: "",
-          color: "#f44336",
-        });
-        setShow(false);
+    await mutate(
+      {
+        type: EDIT,
+        tag: {
+          _id: tags.id,
+          name: tags.name,
+          color: tags.color,
+          user_id: "",
+        },
+      },
+      {
+        onSuccess: () => {
+          setTags({
+            id: "",
+            name: "",
+            color: "#f44336",
+          });
+          setShow(false);
+          refetch();
+        },
+        onError: (error) => {
+          console.error("Edit Tag: ", error);
+        },
       }
-    } catch (error) {
-      console.error("Failed to update tag: ", error);
-    }
+    );
   };
 
   const handleAddSubmit = async () => {
-    try {
-      const userId: string | null | undefined = getUserId();
-      const tagRequest = await axios.post(`/api/tags/${userId}`, {
-        tags,
-      });
-      if (tagRequest.status === 200) {
-        const tagList = await getUserTagList(userId);
-        dispatch(populateTags(tagList));
-        setTags({
-          id: "",
-          name: "",
-          color: "#f44336",
-        });
-        setShow(false);
+    let newTag: TagType = {
+      _id: "",
+      name: tags.name,
+      color: tags.color,
+      user_id: "",
+    };
+    await mutate(
+      {
+        type: ADD,
+        tag: newTag,
+      },
+      {
+        onSuccess: () => {
+          setTags({
+            id: "",
+            name: "",
+            color: "#f44336",
+          });
+          setShow(false);
+          refetch();
+        },
+        onError: (error) => {
+          console.error("Post Tag: ", error);
+        },
       }
-    } catch (error) {
-      console.log("Submit Tag Error: ", error);
-    }
+    );
   };
 
   const handleDeleteSubmit = async () => {
-    try {
-      const userId = getUserId();
-      const tagRequest = await axios.delete(`/api/tags/${id}`);
-
-      if (tagRequest.status === 200) {
-        const tagList = await getUserTagList(userId);
-        dispatch(populateTags(tagList));
-        setTags({
-          id: "",
-          name: "",
-          color: "#f44336",
-        });
-        setShow(false);
+    await mutate(
+      {
+        type: DELETE,
+        tag: {
+          _id: tags.id,
+          name: tags.name,
+          color: tags.color,
+          user_id: "",
+        },
+      },
+      {
+        onSuccess: () => {
+          setTags({
+            id: "",
+            name: "",
+            color: "#f44336",
+          });
+          setShow(false);
+          refetch();
+        },
+        onError: (error) => {
+          console.error("Delete Tag: ", error);
+        },
       }
-    } catch (error) {
-      console.error("Failed to update tag: ", error);
-    }
+    );
   };
 
   return show ? (

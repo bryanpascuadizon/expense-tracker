@@ -1,8 +1,14 @@
-import { ExpenseList } from "@/utils/types";
 import moment from "moment";
 import React from "react";
+import { ExpenseType } from "@/utils/types";
 
-const LatestExpenses = (expenseList: ExpenseList) => {
+interface ListOfExpenseProps {
+  expenses: ExpenseType[];
+}
+
+const LatestExpenses = (expenseList: ListOfExpenseProps) => {
+  const { expenses } = expenseList;
+  console.log("expenses", expenses);
   return (
     <>
       <div className="transaction_item xl:col-span-1 lg:col-span-2">
@@ -14,9 +20,9 @@ const LatestExpenses = (expenseList: ExpenseList) => {
         </div>
 
         <div className="transactions_data">
-          {expenseList.data && expenseList.data.length > 0 ? (
-            expenseList.data.slice(0, 5).map((item) => (
-              <div className="transactions_data_item">
+          {expenses && expenses.length > 0 ? (
+            expenses.slice(0, 5).map((item: ExpenseType) => (
+              <div className="transactions_data_item shadow">
                 <div className="tdi_icon_panel">
                   <p className="material-symbols-outlined">payments</p>
                 </div>

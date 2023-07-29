@@ -1,46 +1,76 @@
-import { ExpenseList } from "@/utils/types";
+import { ExpenseType, ExpenseList } from "@/utils/types";
 import axios from "axios";
 import moment from "moment";
+import { getUserId } from "./Auth";
+import { useMutation, useQuery } from "react-query";
 
-export const getUserExpenseList = async (userId: string | null | undefined) => {
-  try {
-    const expenseList = await axios.get(`/api/expenses/${userId}`);
+const userId = getUserId();
 
-    if (expenseList.status !== 200) {
-      throw new Error("Failed to get Expense List of the user");
-    }
+/* Get all expenses of the user */
+export const fetchUserExpenses = async () => {
+  const expenseList = await axios.get(`/api/expenses/${userId}`);
 
-    return expenseList.data;
-  } catch (error) {
-    console.error("Get User Expense Error: ", error);
+  if (expenseList.status !== 200) {
+    throw new Error(expenseList.statusText);
   }
+
+  return expenseList.data as ExpenseType[];
 };
 
-export const getUserExpenseListBasedOnDate = async () => {
-  try {
-  } catch (error) {
-    console.error("Get User Expense By Date Error: ", error);
+/* Post an expense added by the user */
+export const addUserExpense = async (expense: ExpenseType) => {
+  const postRequest = await axios.post(`/api/expenses/${userId}`, {
+    expense,
+  });
+
+  if (postRequest.status !== 200) {
+    throw new Error(postRequest.statusText);
   }
+
+  return postRequest;
 };
 
-export const getUserPeriodicReportList = async (expenseList: ExpenseList) => {
+/* Updates an expense edited by the user */
+export const editUserExpense = async (expense: ExpenseType) => {
+  const patchRequest = await axios.patch(`/api/expenses/${expense._id}`, {
+    expense,
+  });
+
+  if (patchRequest.status !== 200) {
+    throw new Error(patchRequest.statusText);
+  }
+
+  return patchRequest;
+};
+
+/* Deletes an expense choses by the user */
+export const deleteUserExpense = async (expense: ExpenseType) => {
+  const deleteRequest = await axios.delete(`/api/expenses/${expense._id}`);
+
+  if (deleteRequest.status !== 200) {
+    throw new Error(deleteRequest.statusText);
+  }
+
+  return deleteRequest;
+};
+
+/* Compute for Periodic Tabs using User Expense List */
+export const getUserPeriodicReportList = async (expenses: ExpenseType[]) => {
   try {
-    const dailyCompute: number = computePeriodicExpenses("day", expenseList);
-    const weeklyCompute: number = computePeriodicExpenses("week", expenseList);
-    const monthlyCompute: number = computePeriodicExpenses(
-      "month",
-      expenseList
-    );
-    const yearlyCompute: number = computePeriodicExpenses("year", expenseList);
+    const dailyCompute: number = computePeriodicExpenses("day", expenses);
+    const weeklyCompute: number = computePeriodicExpenses("week", expenses);
+    const monthlyCompute: number = computePeriodicExpenses("month", expenses);
+    const yearlyCompute: number = computePeriodicExpenses("year", expenses);
     return { dailyCompute, weeklyCompute, monthlyCompute, yearlyCompute };
   } catch (error) {
     console.error("Get User Periodic Report List: ", error);
   }
 };
 
+/* Compute User Expense List based on period */
 export const computePeriodicExpenses = (
   period: string,
-  expenseList: ExpenseList
+  expenses: ExpenseType[]
 ) => {
   const startPeriod = moment().startOf(
     period === "day"
@@ -65,7 +95,7 @@ export const computePeriodicExpenses = (
       : "day"
   );
 
-  let finalExpensList = expenseList.data === undefined ? [] : expenseList.data;
+  let finalExpensList = expenses === undefined ? [] : expenses;
 
   const filterExpenseList = finalExpensList.filter(
     (item) =>

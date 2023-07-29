@@ -1,30 +1,23 @@
 "use client";
+
+//REACT IMPORTS
+import React from "react";
+
 import ListOfExpenses from "@/components/expenses/ListOfExpenses";
-import { getUserExpenseList } from "@/lib/ExpenseActions";
-import { getUserId } from "@/lib/Auth";
-import { populateExpenses } from "@/utils/reducers/expenseReducer";
-import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+
+//UTILS
+import { Expense } from "@/utils/types";
+import { useExpenseQuery } from "@/utils/hooks/expense";
 
 const Expenses = () => {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    const fetchTagList = async () => {
-      const userId: string | null | undefined = getUserId();
-      const expenseList = await getUserExpenseList(userId);
-      dispatch(populateExpenses(expenseList));
-    };
-
-    fetchTagList();
-  }, []);
+  const { data } = useExpenseQuery();
   return (
     <>
       <div className="module_title">Expenses</div>
       <div className="module_content">
         <section className="">
           <div className="">
-            <ListOfExpenses />
+            <ListOfExpenses expenses={data as Expense[]} />
           </div>
         </section>
       </div>

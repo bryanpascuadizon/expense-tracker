@@ -1,33 +1,25 @@
 "use client";
 
-import ListofTags from "@/components/tags/ListofTags";
-import { getUserId } from "@/lib/Auth";
-import { getUserTagList } from "@/lib/TagActions";
-import { populateTags } from "@/utils/reducers/tagReducer";
+//REACT IMPORTS
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+
+//COMPONENTS
+import ListofTags from "@/components/tags/ListofTags";
+
+//LIB
+import { useTagQuery } from "@/utils/hooks/tag"
+import { Tag } from "@/utils/types";
 
 const ManageTags = () => {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    const fetchTagList = async () => {
-      const userId: string | null | undefined = getUserId();
-      const tagList = await getUserTagList(userId);
-      dispatch(populateTags(tagList));
-    };
+  const { data } = useTagQuery();
 
-    fetchTagList();
-  }, []);
   return (
     <>
       <div className="module_title">Manage Tags</div>
       <div className="module_content">
         <section className="">
-          {/* <div className="expense_section xxl:col-span-1 xxs:col-span-2">
-            <AddTags />
-          </div> */}
           <div className="">
-            <ListofTags />
+            <ListofTags tags={data as Tag[]} />
           </div>
         </section>
       </div>

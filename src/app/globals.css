@@ -33,7 +33,7 @@ body {
 }
 
 .sidebar_item {
-  @apply text-sm p-5 text-black flex rounded-sm
+  @apply text-sm p-5 text-black flex
 }
 
 .sidebar_item {

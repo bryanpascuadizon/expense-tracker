@@ -1,10 +1,13 @@
-import { RootState } from "@/utils/store";
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
 import TagDialog from "./TagDialog";
+import { Tag } from "@/utils/types";
 
-const ListofTags = () => {
-  const tagList = useSelector((state: RootState) => state.tags);
+interface ListOfTagsProps {
+  tags: Tag[];
+}
+
+const ListofTags = (tagList: ListOfTagsProps) => {
+  const { tags } = tagList;
 
   const [show, setShow] = useState(false);
   const [type, setType] = useState("");
@@ -31,7 +34,7 @@ const ListofTags = () => {
             Add Tag
           </button>
         </div>
-        <table className="expense_table table-auto w-full bg-gray-100 rounded-md">
+        <table className="expense_table table-auto w-full bg-gray-100 rounded-md shadow">
           <thead className="expense_thead">
             <tr>
               <th className="text-sm p-5">Name</th>
@@ -40,64 +43,61 @@ const ListofTags = () => {
               <th className="text-sm p-5">Delete</th>
             </tr>
           </thead>
-          {tagList && tagList.tags.length > 0 ? (
+
+          {tags && tags.length > 0 ? (
             <tbody>
-              {tagList.tags.map(
-                (tag: { _id: string; name: string; color: string }) => (
-                  <tr className="" key={tag._id}>
-                    <td className="text-sm text-center p-3">{tag.name}</td>
-                    <td className="text-sm text-center p-3">
-                      <span
-                        className={`material-symbols-outlined text-[${tag.color}]`}
-                      >
-                        circle
+              {tags.map((tag: Tag) => (
+                <tr className="" key={tag._id}>
+                  <td className="text-sm text-center p-3">{tag.name}</td>
+                  <td className="text-sm text-center p-3">
+                    <span
+                      className={`material-symbols-outlined text-[${tag.color}]`}
+                    >
+                      circle
+                    </span>
+                  </td>
+                  <td>
+                    <button
+                      className="w-full"
+                      onClick={() => {
+                        setShow(true);
+                        setType("Edit");
+                        setTag({
+                          id: tag._id,
+                          name: tag.name,
+                          color: tag.color,
+                        });
+                      }}
+                    >
+                      <span className="material-symbols-outlined text-center">
+                        edit
                       </span>
-                    </td>
-                    <td>
-                      <button
-                        className="w-full"
-                        onClick={() => {
-                          setShow(true);
-                          setType("Edit");
-                          setTag({
-                            id: tag._id,
-                            name: tag.name,
-                            color: tag.color,
-                          });
-                        }}
-                      >
-                        <span className="material-symbols-outlined text-center">
-                          edit
-                        </span>
-                      </button>
-                    </td>
-                    <td>
-                      <button
-                        className="w-full"
-                        onClick={() => {
-                          setShow(true);
-                          setType("Delete");
-                          setTag({
-                            id: tag._id,
-                            name: tag.name,
-                            color: tag.color,
-                          });
-                        }}
-                      >
-                        <span className="material-symbols-outlined">
-                          delete
-                        </span>
-                      </button>
-                    </td>
-                  </tr>
-                )
-              )}
+                    </button>
+                  </td>
+                  <td>
+                    <button
+                      className="w-full"
+                      onClick={() => {
+                        setShow(true);
+                        setType("Delete");
+                        setTag({
+                          id: tag._id,
+                          name: tag.name,
+                          color: tag.color,
+                        });
+                      }}
+                    >
+                      <span className="material-symbols-outlined">delete</span>
+                    </button>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           ) : (
             <></>
           )}
         </table>
-        {tagList.tags.length === 0 ? (
+        {tags && tags.length === 0 ? (
           <p className="text-sm text-center w-full p-5">No tags added...</p>
         ) : (
           ""

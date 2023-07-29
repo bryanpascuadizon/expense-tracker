@@ -21,7 +21,7 @@ const Sidebar = () => {
   };
   return (
     <>
-      <div className="sidebar_group">
+      <div className="sidebar_group shadow">
         <Link className="sidebar_item" href="/dashboard">
           <p className="material-symbols-outlined sidebar_icon">
             space_dashboard

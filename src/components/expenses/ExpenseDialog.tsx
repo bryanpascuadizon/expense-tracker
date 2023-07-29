@@ -1,93 +1,74 @@
+//REACT IMPORTS
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import moment from "moment";
-import { getUserId } from "@/lib/Auth";
-import { getUserTagList } from "@/lib/TagActions";
-import axios from "axios";
-import { populateExpenses } from "@/utils/reducers/expenseReducer";
-import { getUserExpenseList } from "@/lib/ExpenseActions";
+
+//UTILS
+import { ADD, EDIT, DELETE } from "@/utils/constants";
+import { ExpenseType, TagType } from "@/utils/types";
+import { useTagQuery } from "@/utils/hooks/tag";
+import { useExpenseMutation, useExpenseQuery } from "@/utils/hooks/expense";
 
 interface ExpenseDialogProps {
-  expenseItem?: {
-    id: string;
-    name: string;
-    amount: number;
-    dateOfTransaction: string;
-    expenseType: string;
-    expenseTag: {
-      id: string;
-      name: string;
-      color: string;
-      user_id: string;
-    };
-  };
+  expenseItem?: ExpenseType;
   show: boolean;
-  type: string;
+  procedure: string;
   setShow: (show: boolean) => void;
 }
 
 const ExpenseDialog = ({
   expenseItem,
   show,
-  type,
+  procedure,
   setShow,
 }: ExpenseDialogProps) => {
-  const [expense, setExpense] = useState({
-    id: "",
+  const [expense, setExpense] = useState<ExpenseType>({
+    _id: "",
     name: "",
     amount: 0,
     dateOfTransaction: moment(new Date()).format("YYYY-MM-DD"),
-    expenseType: "",
-    expenseTag: {
-      id: "",
+    type: "",
+    tag: {
+      _id: "",
       name: "",
       color: "",
       user_id: "",
     },
+    user_id: "",
   });
-  const [tagList, setTagList] = useState([]);
-  const { id, name, amount, dateOfTransaction, expenseType, expenseTag } =
-    expense;
-  const dispatch = useDispatch();
+  const { name, amount, dateOfTransaction, type, tag } = expense;
+  const { mutate } = useExpenseMutation();
+  const { refetch } = useExpenseQuery();
+  const { data } = useTagQuery();
 
   useEffect(() => {
-    const fetchTagList = async () => {
-      const userId = getUserId();
-      const data = await getUserTagList(userId);
-      setTagList(data);
-    };
-
-    fetchTagList();
-  }, []);
-
-  useEffect(() => {
-    if (type === "Edit" || type === "Delete") {
+    if (procedure === "Edit" || procedure === "Delete") {
       setExpense({
-        id: expenseItem ? expenseItem.id : "",
+        _id: expenseItem ? expenseItem._id : "",
         name: expenseItem ? expenseItem.name : "",
         amount: expenseItem ? expenseItem.amount : 0,
         dateOfTransaction: expenseItem
           ? moment(expenseItem.dateOfTransaction).format("YYYY-MM-DD")
           : moment(new Date()).format("YYYY-MM-DD"),
-        expenseType: expenseItem ? expenseItem.expenseType : "",
-        expenseTag: {
-          id: expenseItem ? expenseItem.expenseTag.id : "",
-          name: expenseItem ? expenseItem.expenseTag.name : "",
-          color: expenseItem ? expenseItem.expenseTag.color : "",
-          user_id: expenseItem ? expenseItem.expenseTag.user_id : "",
+        type: expenseItem ? expenseItem.type : "",
+        tag: {
+          _id: expenseItem ? expenseItem.tag._id : "",
+          name: expenseItem ? expenseItem.tag.name : "",
+          color: expenseItem ? expenseItem.tag.color : "",
+          user_id: expenseItem ? expenseItem.tag.user_id : "",
         },
+        user_id: expenseItem ? expenseItem.user_id : "",
       });
     }
   }, [expenseItem]);
 
   const handleOnChange = (e: any) => {
     const { name, value } = e.target;
-    if (name === "expenseTag") {
+    if (name === "tag") {
       setExpense({
         ...expense,
-        expenseTag: {
-          ...expenseTag,
-          id: value,
+        tag: {
+          ...tag,
+          _id: value,
         },
       });
     }
@@ -97,88 +78,130 @@ const ExpenseDialog = ({
     });
   };
 
+  const resetFields = () => {
+    setExpense({
+      _id: "",
+      name: "",
+      amount: 0,
+      dateOfTransaction: moment(new Date()).format("YYYY-MM-DD"),
+      type: "",
+      tag: {
+        _id: "",
+        name: "",
+        color: "",
+        user_id: "",
+      },
+      user_id: "",
+    });
+  };
+
   const handleEditSubmit = async (e: any) => {
     e.preventDefault();
-    try {
-      const userId = getUserId();
-      const expenseItem = {
-        ...expense,
-        expenseTag:
-          expense.expenseTag.id !== undefined
-            ? expense.expenseTag.id
-            : expense.expenseTag,
-      };
-      const expenseRequest = await axios.patch(`/api/expenses/${userId}`, {
-        expenseItem,
-      });
-      if (expenseRequest.status === 200) {
-        const expenseList = await getUserExpenseList(userId);
-        dispatch(populateExpenses(expenseList));
-        setExpense({
-          id: "",
-          name: "",
-          amount: 0,
-          dateOfTransaction: moment(new Date()).format("YYYY-MM-DD"),
-          expenseType: "",
-          expenseTag: {
-            id: "",
-            name: "",
-            color: "",
-            user_id: "",
-          },
-        });
-        setShow(false);
+
+    let existingExpense: ExpenseType = {
+      _id: expense._id,
+      name: expense.name,
+      amount: expense.amount,
+      dateOfTransaction: expense.dateOfTransaction,
+      type: expense.type,
+      tag: {
+        _id: expense.tag._id !== undefined ? expense.tag._id : "",
+        name: expense.tag.name != undefined ? expense.tag.name : "",
+        color: expense.tag.color != undefined ? expense.tag.color : "",
+        user_id: expense.tag.user_id != undefined ? expense.tag.user_id : "",
+      },
+      user_id: "",
+    };
+
+    await mutate(
+      {
+        type: EDIT,
+        expense: existingExpense,
+      },
+      {
+        onSuccess: () => {
+          resetFields();
+          setShow(false);
+          refetch();
+        },
+        onError: (error) => {
+          console.error("Edit Expense: ", error);
+        },
       }
-    } catch (error) {
-      console.error("Failed to update expense: ", error);
-    }
+    );
   };
 
   const handleAddSubmit = async (e: any) => {
     e.preventDefault();
-    try {
-      const userId = getUserId();
-      const expenseRequest = await axios.post(`/api/expenses/${userId}`, {
-        expense,
-      });
 
-      if (expenseRequest.status === 200) {
-        const expenseList = await getUserExpenseList(userId);
-        console.log("EXPENSE LIST: ", expenseList);
-        dispatch(populateExpenses(expenseList));
-        setExpense({
-          id: "",
-          name: "",
-          amount: 0,
-          dateOfTransaction: moment(new Date()).format("YYYY-MM-DD"),
-          expenseType: "",
-          expenseTag: {
-            id: "",
-            name: "",
-            color: "",
-            user_id: "",
-          },
-        });
-        setShow(false);
+    const tagId: string = `${expense.tag}`;
+    let newExpense: ExpenseType = {
+      _id: "",
+      name: expense.name,
+      amount: expense.amount,
+      dateOfTransaction: expense.dateOfTransaction,
+      type: expense.type,
+      tag: {
+        _id: tagId,
+        name: "",
+        color: "",
+        user_id: "",
+      },
+      user_id: "",
+    };
+
+    await mutate(
+      {
+        type: ADD,
+        expense: newExpense,
+      },
+      {
+        onSuccess: () => {
+          resetFields();
+          setShow(false);
+          refetch();
+        },
+        onError: (error) => {
+          console.error("Add Expense: ", error);
+        },
       }
-    } catch (error) {
-      console.log("Failed to post expense: ", error);
-    }
+    );
   };
 
   const handleDeleteSubmit = async (e: any) => {
     e.preventDefault();
-    try {
-      const userId = getUserId();
-      const expenseRequest = await axios.delete(`/api/expenses/${expense.id}`);
-      if (expenseRequest.status === 200) {
-        const expenseList = await getUserExpenseList(userId);
-        dispatch(populateExpenses(expenseList));
-        setShow(false);
+
+    let existingExpense: ExpenseType = {
+      _id: expense._id,
+      name: expense.name,
+      amount: expense.amount,
+      dateOfTransaction: expense.dateOfTransaction,
+      type: expense.type,
+      tag: {
+        _id: expense.tag._id !== undefined ? expense.tag._id : "",
+        name: expense.tag.name != undefined ? expense.tag.name : "",
+        color: expense.tag.color != undefined ? expense.tag.color : "",
+        user_id: expense.tag.user_id != undefined ? expense.tag.user_id : "",
+      },
+      user_id: "",
+    };
+
+    await mutate(
+      {
+        type: DELETE,
+        expense: existingExpense,
+      },
+      {
+        onSuccess: () => {
+          resetFields();
+          setShow(false);
+          refetch();
+        },
+        onError: (error) => {
+          console.error("Delete Expense: ", error);
+        },
       }
-    } catch (error) {
-      console.error("Failed to delete expense: ", error);
-    }
+    );
   };
 
   return show ? (
@@ -188,9 +211,9 @@ const ExpenseDialog = ({
         {/* Modal Title */}
         <div className="p-5 border-b border-b-gray-200">
           <p className="text-xl">
-            {type === "Add"
+            {procedure === "Add"
               ? "Add Expense"
-              : type === "Edit"
+              : procedure === "Edit"
               ? "Edit Expense"
               : "Are you sure you want to delete this expense?"}
           </p>
@@ -199,8 +222,12 @@ const ExpenseDialog = ({
         <div className="p-5">
           {/* Name */}
           <div>
-            {type !== "Delete" ? <p className={`text-md mb-3`}>Name:</p> : ""}
-            {type === "Delete" ? (
+            {procedure !== "Delete" ? (
+              <p className={`text-md mb-3`}>Name:</p>
+            ) : (
+              ""
+            )}
+            {procedure === "Delete" ? (
               <p className={`text-md mb-3`}>
                 Name: <span className={`text-md mb-3`}>{name}</span>
               </p>
@@ -218,8 +245,12 @@ const ExpenseDialog = ({
           </div>
           {/* Amount */}
           <div>
-            {type !== "Delete" ? <p className={`text-md mb-3`}>Amount:</p> : ""}
-            {type === "Delete" ? (
+            {procedure !== "Delete" ? (
+              <p className={`text-md mb-3`}>Amount:</p>
+            ) : (
+              ""
+            )}
+            {procedure === "Delete" ? (
               <p className={`text-md mb-3`}>
                 Amount: <span className={`text-md mb-3`}>{amount}</span>
               </p>
@@ -237,12 +268,12 @@ const ExpenseDialog = ({
           </div>
           {/* Date Of Transaction */}
           <div>
-            {type !== "Delete" ? (
+            {procedure !== "Delete" ? (
               <p className={`text-md mb-3`}>Date of transaction:</p>
             ) : (
               ""
             )}
-            {type === "Delete" ? (
+            {procedure === "Delete" ? (
               <p className={`text-md mb-3`}>
                 Date of transaction:{" "}
                 <span className={`text-md mb-3`}>
@@ -262,35 +293,36 @@ const ExpenseDialog = ({
           </div>
           {/* Type */}
           <div>
-            {type !== "Delete" ? <p className={`text-md mb-3`}>Type:</p> : ""}
-            {type === "Delete" ? (
+            {procedure !== "Delete" ? (
+              <p className={`text-md mb-3`}>Type:</p>
+            ) : (
+              ""
+            )}
+            {procedure === "Delete" ? (
               <p className={`text-md mb-3`}>
-                Type: <span className={`text-md mb-3`}>{expenseType}</span>
+                Type: <span className={`text-md mb-3`}>{type}</span>
               </p>
             ) : (
               <select
-                id="expenseType"
-                name="expenseType"
+                id="type"
+                name="type"
                 className="mb-3 text-sm rounded-md p-3 w-full"
                 onChange={handleOnChange}
                 required
               >
                 <option value="">Choose Type</option>
-                <option
-                  value="Cash"
-                  selected={expenseType === "Cash" ? true : false}
-                >
+                <option value="Cash" selected={type === "Cash" ? true : false}>
                   Cash
                 </option>
                 <option
                   value="Credit"
-                  selected={expenseType === "Credit" ? true : false}
+                  selected={type === "Credit" ? true : false}
                 >
                   Credit
                 </option>
                 <option
                   value="Debit"
-                  selected={expenseType === "Debit" ? true : false}
+                  selected={type === "Debit" ? true : false}
                 >
                   Debit
                 </option>
@@ -299,31 +331,34 @@ const ExpenseDialog = ({
           </div>
           {/* Tags */}
           <div>
-            {type !== "Delete" ? <p className={`text-md mb-3`}>Tags:</p> : ""}
-            {type === "Delete" ? (
+            {procedure !== "Delete" ? (
+              <p className={`text-md mb-3`}>Tags:</p>
+            ) : (
+              ""
+            )}
+            {procedure === "Delete" ? (
               <p className={`text-md mb-3`}>
-                Tags: <span className={`text-md mb-3`}>{expenseTag.name}</span>
+                Tags: <span className={`text-md mb-3`}>{tag.name}</span>
               </p>
             ) : (
               <select
-                id="expenseTag"
-                name="expenseTag"
+                id="tag"
+                name="tag"
                 className="mb-3 text-sm rounded-md p-3 w-full"
                 onChange={handleOnChange}
                 required
               >
                 <option value="">Choose Tag</option>
-                {tagList.map(
-                  (tag: { _id: string; name: string; color: string }) => (
+                {data &&
+                  data.map((tagItem: TagType) => (
                     <option
-                      key={tag._id}
-                      value={tag._id}
-                      selected={tag._id === expenseTag.id ? true : false}
+                      key={tagItem._id}
+                      value={tagItem._id}
+                      selected={tagItem._id === tag._id ? true : false}
                     >
-                      {tag.name}
+                      {tagItem.name}
                     </option>
-                  )
-                )}
+                  ))}
               </select>
             )}
           </div>
@@ -334,14 +369,18 @@ const ExpenseDialog = ({
             type="submit"
             className="text-sm pt-3 pb-3 pl-5 pr-5 bg-grey-900 rounded-md text-white"
             onClick={
-              type === "Add"
+              procedure === "Add"
                 ? handleAddSubmit
-                : type === "Edit"
+                : procedure === "Edit"
                 ? handleEditSubmit
                 : handleDeleteSubmit
             }
           >
-            {type === "Add" ? "Add" : type === "Edit" ? "Edit" : "Delete"}{" "}
+            {procedure === "Add"
+              ? "Add"
+              : procedure === "Edit"
+              ? "Edit"
+              : "Delete"}{" "}
             Expense
           </button>
           <button
