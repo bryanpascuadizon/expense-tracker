@@ -2,7 +2,7 @@
 import { UseMutationOptions, useMutation, useQuery } from "react-query";
 
 //UTILS
-import { Expense } from "../types";
+import { ExpenseType } from "../types";
 import { ADD, EDIT, DELETE } from "../constants";
 
 //LIB
@@ -15,12 +15,12 @@ import {
 
 type ExpenseMutationVariable = {
   type: string;
-  expense: Expense;
+  expense: ExpenseType;
 };
 
 /* For expense mutation */
 export const useExpenseMutation = (
-  options?: UseMutationOptions<Expense, Error, ExpenseMutationVariable>
+  options?: UseMutationOptions<ExpenseType, Error, ExpenseMutationVariable>
 ) => {
   const mutation = useMutation(
     async ({ type, expense }: ExpenseMutationVariable) => {
@@ -40,7 +40,7 @@ export const useExpenseMutation = (
 
 /* For fetching user expense list */
 export const useExpenseQuery = () => {
-  return useQuery<Expense[], Error>({
+  return useQuery<ExpenseType[], Error>({
     queryKey: ["expenses"],
     queryFn: fetchUserExpenses,
   });

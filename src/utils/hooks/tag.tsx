@@ -2,7 +2,7 @@
 import { UseMutationOptions, useMutation, useQuery } from "react-query";
 
 //UTILS
-import { Tag } from "../types";
+import { TagType } from "../types";
 import { ADD, EDIT, DELETE } from "../constants";
 
 //LIB
@@ -16,12 +16,12 @@ import {
 /* Type for Tag Mutation */
 type TagMutationVariable = {
   type: string;
-  tag: Tag;
+  tag: TagType;
 };
 
 /* Custom Hook for Tag Mutation */
 export const useTagMutation = (
-  options?: UseMutationOptions<Tag, Error, TagMutationVariable>
+  options?: UseMutationOptions<TagType, Error, TagMutationVariable>
 ) => {
   const mutation = useMutation(async ({ type, tag }: TagMutationVariable) => {
     switch (type) {
@@ -39,5 +39,8 @@ export const useTagMutation = (
 
 /* Custom Hook for fetching user tag list */
 export const useTagQuery = () => {
-  return useQuery<Tag[], Error>({ queryKey: ["tags"], queryFn: fetchUserTags });
+  return useQuery<TagType[], Error>({
+    queryKey: ["tags"],
+    queryFn: fetchUserTags,
+  });
 };
