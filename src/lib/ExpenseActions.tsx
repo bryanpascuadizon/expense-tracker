@@ -2,7 +2,6 @@ import { ExpenseType, ExpenseList } from "@/utils/types";
 import axios from "axios";
 import moment from "moment";
 import { getUserId } from "./Auth";
-import { useMutation, useQuery } from "react-query";
 
 const userId = getUserId();
 
@@ -56,11 +55,35 @@ export const deleteUserExpense = async (expense: ExpenseType) => {
 
 /* Compute for Periodic Tabs using User Expense List */
 export const getUserPeriodicReportList = async (expenses: ExpenseType[]) => {
+  let dailyExepenses: ExpenseType[] = [];
+  let weeklyExpenses: ExpenseType[] = [];
+  let monthlyExpenses: ExpenseType[] = [];
+  let yearlyExpenses: ExpenseType[] = [];
+
+  for (let expense of expenses) {
+    let period = getExpensePeriod(expense);
+
+    if (period.isDay === true) {
+      dailyExepenses = [...dailyExepenses, expense];
+    }
+
+    if (period.isWeekly === true) {
+      weeklyExpenses = [...weeklyExpenses, expense];
+    }
+    if (period.isMonthly === true) {
+      monthlyExpenses = [...monthlyExpenses, expense];
+    }
+    if (period.isYearly === true) {
+      yearlyExpenses = [...yearlyExpenses, expense];
+    }
+  }
+
   try {
-    const dailyCompute: number = computePeriodicExpenses("day", expenses);
-    const weeklyCompute: number = computePeriodicExpenses("week", expenses);
-    const monthlyCompute: number = computePeriodicExpenses("month", expenses);
-    const yearlyCompute: number = computePeriodicExpenses("year", expenses);
+    const dailyCompute: number = computePeriodicExpenses(dailyExepenses);
+    const weeklyCompute: number = computePeriodicExpenses(weeklyExpenses);
+    const monthlyCompute: number = computePeriodicExpenses(monthlyExpenses);
+    const yearlyCompute: number = computePeriodicExpenses(yearlyExpenses);
+
     return { dailyCompute, weeklyCompute, monthlyCompute, yearlyCompute };
   } catch (error) {
     console.error("Get User Periodic Report List: ", error);
@@ -68,46 +91,56 @@ export const getUserPeriodicReportList = async (expenses: ExpenseType[]) => {
 };
 
 /* Compute User Expense List based on period */
-export const computePeriodicExpenses = (
-  period: string,
-  expenses: ExpenseType[]
-) => {
-  const startPeriod = moment().startOf(
-    period === "day"
-      ? "day"
-      : period === "week"
-      ? "week"
-      : period === "month"
-      ? "month"
-      : period === "year"
-      ? "year"
-      : "day"
-  );
-  const endPeriod = moment().endOf(
-    period === "day"
-      ? "day"
-      : period === "week"
-      ? "week"
-      : period === "month"
-      ? "month"
-      : period === "year"
-      ? "year"
-      : "day"
-  );
-
-  let finalExpensList = expenses === undefined ? [] : expenses;
-
-  const filterExpenseList = finalExpensList.filter(
-    (item) =>
-      moment(item.dateOfTransaction) >= startPeriod &&
-      moment(item.dateOfTransaction) <= endPeriod
-  );
-
+export const computePeriodicExpenses = (expenses: ExpenseType[]) => {
   let periodCounter: number = 0.0;
 
-  for (let i of filterExpenseList) {
+  for (let i of expenses) {
     periodCounter += i.amount;
   }
 
   return periodCounter;
+};
+
+/* Get Period of a particular expense */
+export const getExpensePeriod = (expense: ExpenseType) => {
+  let isPeriod = {
+    isDay: false,
+    isWeekly: false,
+    isMonthly: false,
+    isYearly: false,
+  };
+
+  //Daily
+  if (
+    moment(expense.dateOfTransaction) >= moment().startOf("day") &&
+    moment(expense.dateOfTransaction) <= moment().endOf("day")
+  ) {
+    isPeriod.isDay = true;
+  }
+
+  //Weekly
+  if (
+    moment(expense.dateOfTransaction) >= moment().startOf("week") &&
+    moment(expense.dateOfTransaction) <= moment().endOf("week")
+  ) {
+    isPeriod.isWeekly = true;
+  }
+
+  //Monthly
+  if (
+    moment(expense.dateOfTransaction) >= moment().startOf("month") &&
+    moment(expense.dateOfTransaction) <= moment().endOf("month")
+  ) {
+    isPeriod.isMonthly = true;
+  }
+
+  //Monthly
+  if (
+    moment(expense.dateOfTransaction) >= moment().startOf("year") &&
+    moment(expense.dateOfTransaction) <= moment().endOf("year")
+  ) {
+    isPeriod.isYearly = true;
+  }
+
+  return isPeriod;
 };

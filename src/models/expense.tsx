@@ -1,4 +1,6 @@
 import { Schema, models, model } from "mongoose";
+import Tags from "./tags";
+import User from "./user";
 
 const ExpenseSchema = new Schema({
   name: {
@@ -18,11 +20,11 @@ const ExpenseSchema = new Schema({
   },
   tag: {
     type: Schema.Types.ObjectId,
-    ref: "Tags",
+    ref: Tags,
   },
   user_id: {
     type: Schema.Types.ObjectId,
-    ref: "User",
+    ref: User,
   },
 });
 

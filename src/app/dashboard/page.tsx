@@ -14,17 +14,23 @@ import { useExpenseQuery } from "@/utils/hooks/expense";
 import { ExpenseType } from "@/utils/types";
 
 const Dashboard = () => {
-  const { data } = useExpenseQuery();
+  const { data, isLoading } = useExpenseQuery();
   return (
     <>
       <div className="module_title">Summary</div>
       <div className="module_content">
-        <PeriodicTabs expenses={data as ExpenseType[]} />
-        <section className="transactions grid xxl:grid-cols-3 xl:grid-cols-2 xxxs:grid-cols-1">
-          <LatestExpenses expenses={data as ExpenseType[]} />
-          {/* <Subscriptions /> */}
-          {/* <Tags /> */}
-        </section>
+        {isLoading === false ? (
+          <>
+            <PeriodicTabs expenses={data as ExpenseType[]} />
+            <section className="transactions grid xxl:grid-cols-3 xl:grid-cols-2 xxxs:grid-cols-1">
+              <LatestExpenses expenses={data as ExpenseType[]} />
+              {/* <Subscriptions /> */}
+              {/* <Tags /> */}
+            </section>
+          </>
+        ) : (
+          <>Loading</>
+        )}
       </div>
     </>
   );

@@ -14,7 +14,9 @@ interface ParamsProps {
 export const GET = async (req: NextRequest, { params }: ParamsProps) => {
   try {
     await connectToDB();
+
     const expenses = await Expense.find({ user_id: params.id }).populate("tag");
+
     if (!expenses) {
       return new NextResponse("No expenses found", { status: 404 });
     }

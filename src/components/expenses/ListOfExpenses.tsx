@@ -16,7 +16,6 @@ interface ListOfExpensesProps {
 
 const ListOfExpenses = (expenseList: ListOfExpensesProps) => {
   const { expenses } = expenseList;
-  console.log(expenses);
   const [expense, setExpense] = useState({
     _id: "",
     name: "",

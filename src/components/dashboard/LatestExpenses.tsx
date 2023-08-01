@@ -8,7 +8,7 @@ interface ListOfExpenseProps {
 
 const LatestExpenses = (expenseList: ListOfExpenseProps) => {
   const { expenses } = expenseList;
-  console.log("expenses", expenses);
+
   return (
     <>
       <div className="transaction_item xl:col-span-1 lg:col-span-2">
@@ -22,7 +22,7 @@ const LatestExpenses = (expenseList: ListOfExpenseProps) => {
         <div className="transactions_data">
           {expenses && expenses.length > 0 ? (
             expenses.slice(0, 5).map((item: ExpenseType) => (
-              <div className="transactions_data_item shadow">
+              <div className="transactions_data_item shadow" key={item._id}>
                 <div className="tdi_icon_panel">
                   <p className="material-symbols-outlined">payments</p>
                 </div>

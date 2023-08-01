@@ -1,9 +1,9 @@
 import { getUserPeriodicReportList } from "@/lib/ExpenseActions";
-import { Expense } from "@/utils/types";
+import { ExpenseType } from "@/utils/types";
 import React, { useEffect, useState } from "react";
 
 interface PeriodicTabsProps {
-  expenses: Expense[];
+  expenses: ExpenseType[];
 }
 
 const PeriodicTabs = (expenseList: PeriodicTabsProps) => {
