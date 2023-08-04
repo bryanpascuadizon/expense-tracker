@@ -1,4 +1,4 @@
-import { ExpenseType, ExpenseList } from "@/utils/types";
+import { ExpenseType } from "@/utils/types";
 import axios from "axios";
 import moment from "moment";
 import { getUserId } from "./Auth";
@@ -143,4 +143,53 @@ export const getExpensePeriod = (expense: ExpenseType) => {
   }
 
   return isPeriod;
+};
+
+/* Calendar Template */
+export const makeCalendar = () => {
+  let plotCalendar: number[] = [];
+  let finalCalendar: number[] = [];
+
+  const date = moment(new Date());
+
+  const numberOfDaysInMonth = date.daysInMonth();
+  const currentYear = date.year();
+  const currentMonth = date.month() + 1;
+  const currentDay = date.date();
+  const firstDay = moment(
+    new Date(`${currentMonth}/${currentDay - (currentDay - 1)}/${currentYear}`)
+  ).day();
+
+  //Fill Start of Month
+  for (let i = 0; i <= firstDay; i++) {
+    if (i !== firstDay) {
+      plotCalendar = [...plotCalendar, 0];
+    } else {
+      plotCalendar = [...plotCalendar, 1];
+    }
+  }
+
+  //Fill Rest of Days
+  for (let i = 2; i <= numberOfDaysInMonth; i++) {
+    plotCalendar = [...plotCalendar, i];
+  }
+
+  //Fill End of Month
+  for (let i = 0; i <= plotCalendar.length; i += 7) {
+    let start = i;
+    let end = i + 7;
+    let newCalendarGroup = [...plotCalendar.slice(start, end)];
+
+    if (newCalendarGroup.length < 7) {
+      let iteration = 7 - newCalendarGroup.length;
+      for (let j = 0; j < iteration; j++) {
+        newCalendarGroup = [...newCalendarGroup, 0];
+      }
+    }
+    finalCalendar = [...finalCalendar, ...newCalendarGroup];
+  }
+
+  console.log(finalCalendar);
+
+  return finalCalendar;
 };

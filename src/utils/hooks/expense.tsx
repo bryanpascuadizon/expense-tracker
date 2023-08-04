@@ -11,6 +11,7 @@ import {
   deleteUserExpense,
   editUserExpense,
   fetchUserExpenses,
+  makeCalendar,
 } from "@/lib/ExpenseActions";
 
 type ExpenseMutationVariable = {
@@ -43,5 +44,12 @@ export const useExpenseQuery = () => {
   return useQuery<ExpenseType[], Error>({
     queryKey: ["expenses"],
     queryFn: fetchUserExpenses,
+  });
+};
+
+export const useCalendarQuery = () => {
+  return useQuery<number[], Error>({
+    queryKey: ["calendar"],
+    queryFn: makeCalendar,
   });
 };

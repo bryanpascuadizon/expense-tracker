@@ -15,7 +15,8 @@ export const fetchUserTags = async () => {
 };
 
 /* Post a tag added by the user */
-export const addUserTag = async (tag: TagType) => {
+export const 
+addUserTag = async (tag: TagType) => {
   const postRequest = await axios.post(`/api/tags/${userId}`, {
     tag,
   });
