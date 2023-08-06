@@ -16,6 +16,45 @@ export const fetchUserExpenses = async () => {
   return expenseList.data as ExpenseType[];
 };
 
+/* Search User Expense by Date of Transaction */
+export const fetchUserExpensesWithDate = async (
+  month: string,
+  day: number,
+  year: number
+) => {
+  if (day === 0) {
+    return [] as ExpenseType[];
+  }
+
+  const date: string = moment(`${month} ${day}, ${year}`).format("YYYY-MM-DD");
+  const expenseList = await axios.get(
+    `/api/expenses/calendar/${date}/${userId}`
+  );
+
+  if (expenseList.status !== 200) {
+    throw new Error(expenseList.statusText);
+  }
+
+  console.log("Expense List: ", expenseList.data);
+  return expenseList.data as ExpenseType[];
+};
+
+export const fetchUserExepensesByMonth = async (
+  month: string,
+  numberOfDaysInMonth: number,
+  year: number
+) => {
+  const expenseList = await axios.get(
+    `/api/expenses/calendar/month/${month}/${numberOfDaysInMonth}/${year}/${userId}`
+  );
+
+  if (expenseList.status !== 200) {
+    throw new Error(expenseList.statusText);
+  }
+
+  return expenseList.data as ExpenseType[];
+};
+
 /* Post an expense added by the user */
 export const addUserExpense = async (expense: ExpenseType) => {
   const postRequest = await axios.post(`/api/expenses/${userId}`, {
@@ -188,8 +227,6 @@ export const makeCalendar = () => {
     }
     finalCalendar = [...finalCalendar, ...newCalendarGroup];
   }
-
-  console.log(finalCalendar);
 
   return finalCalendar;
 };

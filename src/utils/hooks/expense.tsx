@@ -11,6 +11,7 @@ import {
   deleteUserExpense,
   editUserExpense,
   fetchUserExpenses,
+  fetchUserExpensesWithDate,
   makeCalendar,
 } from "@/lib/ExpenseActions";
 

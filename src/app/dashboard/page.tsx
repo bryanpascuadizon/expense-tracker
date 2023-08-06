@@ -31,7 +31,7 @@ const Dashboard = () => {
             </section>
           </>
         ) : (
-          <Loader />
+          <p>Loading Dashboard...</p>
         )}
       </div>
     </>
