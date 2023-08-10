@@ -52,7 +52,7 @@ const ListOfExpenses = (expenseList: ListOfExpensesProps) => {
           </button>
         </div>
 
-        <table className="expense_table table-auto w-full bg-gray-100 rounded-md shadow">
+        <table className="expense_table w-full bg-gray-100 rounded-md shadow">
           <thead className="expense_thead">
             <tr>
               <th className="text-sm p-5">Name</th>
