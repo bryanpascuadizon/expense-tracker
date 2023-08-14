@@ -44,7 +44,7 @@ const CalendarItemDialog = (expenseList: CalanderItemDialogProps) => {
           refetch={refetch}
           calendarCurrentDate={calendarCurrentDate}
         />
-        <CalendarItemExpenseList expenses={expenses} />
+        <CalendarItemExpenseList expenses={expenses} calendarCurrentDate={calendarCurrentDate}/>
       </div>
     </div>
   );

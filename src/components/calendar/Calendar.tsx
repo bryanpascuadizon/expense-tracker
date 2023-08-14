@@ -24,9 +24,6 @@ const Calendar = () => {
       return expenseList;
     }
   );
-  const [calendarItemExpenseList, setCalendarItemExpenseList] = useState<
-    ExpenseType[]
-  >([]);
   const [currentDate, setCurrentDate] = useState("");
   const [isOpen, setIsOpen] = useState(false);
 
@@ -34,11 +31,7 @@ const Calendar = () => {
     setIsOpen(false);
   }, []);
 
-  const getExpenseListFromCalendarItem = async (
-    expenseList: ExpenseType[],
-    day: number
-  ) => {
-    setCalendarItemExpenseList(expenseList);
+  const handleCalendarDialog = async (day: number) => {
     setCurrentDate(`${calendarYear}-${calendarMonth}-${day}`);
     setIsOpen(!isOpen);
   };
@@ -70,9 +63,7 @@ const Calendar = () => {
                   day={day}
                   year={calendarYear}
                   key={day}
-                  getExpenseListFromCalendarItem={
-                    getExpenseListFromCalendarItem
-                  }
+                  handleCalendarDialog={handleCalendarDialog}
                 />
               </>
             ))}

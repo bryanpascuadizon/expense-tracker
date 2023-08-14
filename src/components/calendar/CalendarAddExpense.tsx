@@ -106,7 +106,7 @@ const CalendarAddExpense = (props: CalendarAddExpenseProps) => {
     <>
       <div className="w-full text-xl pt-3 pl-3 pr-3">Add Expense</div>
       <form onSubmit={handleSubmit}>
-        <div className="p-5 w-full">
+        <div className="p-1 w-full">
           <div className="flex flex-wrap">
             <CalendarAddExpenseField
               id={name}

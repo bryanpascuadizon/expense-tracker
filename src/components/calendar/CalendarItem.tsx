@@ -7,11 +7,11 @@ interface CalendarItemProps {
   month: string;
   day: number;
   year: number;
-  getExpenseListFromCalendarItem: (expense: ExpenseType[], day: number) => void;
+  handleCalendarDialog: (day: number) => void;
 }
 
 const CalendarItem = (dayItem: CalendarItemProps) => {
-  const { day, expenseList, getExpenseListFromCalendarItem } = dayItem;
+  const { day, expenseList, handleCalendarDialog } = dayItem;
 
   const isToday = moment(new Date()).date() === day ? true : false;
   let total: number = 0;
@@ -33,7 +33,7 @@ const CalendarItem = (dayItem: CalendarItemProps) => {
           day === 0
             ? () => {}
             : () => {
-                getExpenseListFromCalendarItem(expenseList, day);
+              handleCalendarDialog(day);
               }
         }
       >
