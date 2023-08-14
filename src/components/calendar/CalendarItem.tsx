@@ -7,7 +7,7 @@ interface CalendarItemProps {
   month: string;
   day: number;
   year: number;
-  getExpenseListFromCalendarItem: (expense: ExpenseType[]) => void
+  getExpenseListFromCalendarItem: (expense: ExpenseType[], day: number) => void;
 }
 
 const CalendarItem = (dayItem: CalendarItemProps) => {
@@ -33,7 +33,7 @@ const CalendarItem = (dayItem: CalendarItemProps) => {
           day === 0
             ? () => {}
             : () => {
-                getExpenseListFromCalendarItem(expenseList);
+                getExpenseListFromCalendarItem(expenseList, day);
               }
         }
       >

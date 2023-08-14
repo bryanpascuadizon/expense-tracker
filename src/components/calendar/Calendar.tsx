@@ -4,7 +4,7 @@ import moment from "moment";
 import { MONTHS } from "@/utils/constants";
 import { useQuery } from "react-query";
 import { ExpenseType } from "@/utils/types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CalendarItemDialog from "./CalendarItemDialog";
 
 const Calendar = () => {
@@ -27,14 +27,20 @@ const Calendar = () => {
   const [calendarItemExpenseList, setCalendarItemExpenseList] = useState<
     ExpenseType[]
   >([]);
+  const [currentDate, setCurrentDate] = useState("");
   const [isOpen, setIsOpen] = useState(false);
 
-  const getExpenseListFromCalendarItem = (expenseList: ExpenseType[]) => {
-    setCalendarItemExpenseList(expenseList);
+  useEffect(() => {
+    setIsOpen(false);
+  }, []);
 
-    if (expenseList.length > 0) {
-      setIsOpen(!isOpen);
-    }
+  const getExpenseListFromCalendarItem = async (
+    expenseList: ExpenseType[],
+    day: number
+  ) => {
+    setCalendarItemExpenseList(expenseList);
+    setCurrentDate(`${calendarYear}-${calendarMonth}-${day}`);
+    setIsOpen(!isOpen);
   };
 
   const handleCalendarItemClose = () => {
@@ -43,9 +49,9 @@ const Calendar = () => {
 
   return !isLoading ? (
     <>
-      {data && data.length > 0 && calendar && calendar.length > 0 ? (
+      {data && calendar && calendar.length > 0 ? (
         <>
-          <div className="text-xl mb-2">{`${calendarMonth} ${calendarYear}`}</div>
+          <div className="text-xl mb-3">{`${calendarMonth} ${calendarYear}`}</div>
           <div
             key={``}
             className="rounded-md bg-600 w-full min-h-[130px] p-2 grid xxxl:grid-cols-7 xxl:grid-cols-5 xl:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-2"
@@ -71,10 +77,14 @@ const Calendar = () => {
               </>
             ))}
           </div>
-
           <CalendarItemDialog
             isOpen={isOpen}
-            expenses={calendarItemExpenseList}
+            expenses={data.filter(
+              (expense: ExpenseType) =>
+                moment(expense.dateOfTransaction).format("YYYY-MM-DD") ===
+                moment(`${currentDate}`).format("YYYY-MM-DD")
+            )}
+            calendarCurrentDate={currentDate}
             handleCalendarItemClose={handleCalendarItemClose}
             refetch={refetch}
           />

@@ -15,7 +15,7 @@ const Expenses = () => {
 
   return (
     <>
-      <div className="module_title">XPNS</div>
+      <div className="module_title">Expenses</div>
       <div className="module_content">
         <section className="">
           <div className="">

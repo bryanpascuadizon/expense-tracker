@@ -227,6 +227,5 @@ export const makeCalendar = () => {
     }
     finalCalendar = [...finalCalendar, ...newCalendarGroup];
   }
-
   return finalCalendar;
 };
