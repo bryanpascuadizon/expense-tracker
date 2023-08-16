@@ -12,7 +12,6 @@ interface CalendarItemProps {
 
 const CalendarItem = (dayItem: CalendarItemProps) => {
   const { day, expenseList, handleCalendarDialog } = dayItem;
-
   const isToday = moment(new Date()).date() === day ? true : false;
   let total: number = 0;
 
@@ -33,7 +32,7 @@ const CalendarItem = (dayItem: CalendarItemProps) => {
           day === 0
             ? () => {}
             : () => {
-              handleCalendarDialog(day);
+                handleCalendarDialog(day);
               }
         }
       >

@@ -9,6 +9,7 @@ type CalendarItemExpenseListProps = {
 
 const CalendarItemExpenseList = (expenseList: CalendarItemExpenseListProps) => {
   const { expenses, calendarCurrentDate } = expenseList;
+
   return (
     <>
       <div className="w-full text-xl p-3">
@@ -20,6 +21,7 @@ const CalendarItemExpenseList = (expenseList: CalendarItemExpenseListProps) => {
           <tr className="hidden xl:table-row text-left">
             <th className="text-lg p-3">Name</th>
             <th className="text-lg p-3">Amount</th>
+            <th className="text-lg p-3">Date of Transaction</th>
             <th className="text-lg p-3">Type</th>
             <th className="text-lg p-3">Tag</th>
             <th className="text-lg p-3 text-center">Edit</th>
@@ -37,6 +39,9 @@ const CalendarItemExpenseList = (expenseList: CalendarItemExpenseListProps) => {
               <tr className="hidden xl:table-row text-left" key={item._id}>
                 <td className="text-sm p-3">{item.name}</td>
                 <td className="text-sm p-3">₱ {item.amount.toFixed(2)}</td>
+                <td className="text-sm p-3">
+                  {moment(`${item.dateOfTransaction}`).format("MMMM DD, YYYY")}
+                </td>
                 <td className="text-sm p-3">{item.type}</td>
                 <td className="text-sm p-3">
                   <p className={`text-[${item.tag?.color}]`}>
@@ -94,7 +99,7 @@ const CalendarItemExpenseList = (expenseList: CalendarItemExpenseListProps) => {
                   </button>
                 </td>
               </tr>
-              <tr className="table-row xl:hidden text-left" key={item._id}>
+              {/* <tr className="table-row xl:hidden text-left" key={item._id}>
                 <td className="text-sm p-3">
                   <p>{item.name}</p>
                   <p>
@@ -155,7 +160,7 @@ const CalendarItemExpenseList = (expenseList: CalendarItemExpenseListProps) => {
                     <span className="material-symbols-outlined">delete</span>
                   </button>
                 </td>
-              </tr>
+              </tr> */}
             </>
           ))}
         </tbody>

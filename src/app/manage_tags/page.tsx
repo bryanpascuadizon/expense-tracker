@@ -8,7 +8,7 @@ import ListofTags from "@/components/tags/ListofTags";
 
 //LIB
 import { useTagQuery } from "@/utils/hooks/tag"
-import { Tag } from "@/utils/types";
+import { TagType } from "@/utils/types";
 
 const ManageTags = () => {
   const { data } = useTagQuery();
@@ -19,7 +19,7 @@ const ManageTags = () => {
       <div className="module_content">
         <section className="">
           <div className="">
-            <ListofTags tags={data as Tag[]} />
+            <ListofTags tags={data as TagType[]} />
           </div>
         </section>
       </div>

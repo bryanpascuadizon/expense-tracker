@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import CalendarAddExpenseField from "./CalendarAddExpenseField";
-import { ExpenseType } from "@/utils/types";
+import { ExpenseType, TagType } from "@/utils/types";
 import moment from "moment";
 import { useTagQuery } from "@/utils/hooks/tag";
 import { useExpenseMutation } from "@/utils/hooks/expense";
@@ -65,7 +65,6 @@ const CalendarAddExpense = (props: CalendarAddExpenseProps) => {
   };
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-
     const tagId: string = `${expense.tag}`;
     let newExpense: ExpenseType = {
       _id: "",
@@ -140,31 +139,23 @@ const CalendarAddExpense = (props: CalendarAddExpenseProps) => {
             />
           </div>
           <div className="flex flex-wrap">
-          <select
-                id="type"
-                name="type"
-                className="rounded-md flex-grow text-sm p-3 m-3 border border-gray-200"
-                onChange={handleOnChange}
-                required
-              >
-                <option value="">Choose Type</option>
-                <option value="Cash" selected={type === "Cash" ? true : false}>
-                  Cash
-                </option>
+            <select
+              id="type"
+              name="type"
+              className="rounded-md flex-grow text-sm p-3 m-3 border border-gray-200"
+              onChange={handleOnChange}
+              required
+            >
+              {TYPEOPTIONS.map((item: { value: string }) => (
                 <option
-                  value="Credit"
-                  selected={type === "Credit" ? true : false}
+                  value={item.value}
+                  selected={type === item.value ? true : false}
                 >
-                  Credit
+                  {item.value === "" ? "Choose Type" : item.value}
                 </option>
-                <option
-                  value="Debit"
-                  selected={type === "Debit" ? true : false}
-                >
-                  Debit
-                </option>
-              </select>
-            <CalendarAddExpenseField
+              ))}
+            </select>
+            {/* <CalendarAddExpenseField
               id={type}
               name="tag"
               type=""
@@ -174,7 +165,26 @@ const CalendarAddExpense = (props: CalendarAddExpenseProps) => {
               selectOptions={TAGOPTIONS}
               onChange={handleOnChange}
               disabled={false}
-            />
+            /> */}
+            <select
+              id="tag"
+              name="tag"
+              className="rounded-md flex-grow text-sm p-3 m-3 border border-gray-200"
+              onChange={handleOnChange}
+              required
+            >
+              <option value="">Choose Tag</option>
+              {TAGOPTIONS &&
+                TAGOPTIONS.map((tagItem: TagType) => (
+                  <option
+                    key={tagItem._id}
+                    value={tagItem._id}
+                    selected={tagItem._id === tag._id ? true : false}
+                  >
+                    {tagItem.name}
+                  </option>
+                ))}
+            </select>
             <button
               className="rounded-md flex-grow text-sm  p-3 m-3 bg-grey-900  text-white"
               type="submit"

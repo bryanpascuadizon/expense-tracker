@@ -31,7 +31,7 @@ const LatestExpenses = (expenseList: ListOfExpenseProps) => {
                   <p className={`td_item_tag text-[${item.tag.color}] inline`}>
                     {item.tag.name}
                   </p>
-                  <span className="text-xs"> - {item.type}</span>
+                  <span className="text-sm"> - {item.type}</span>
                 </div>
                 <div className="tdi_right_panel">
                   <p className="td_item_price">₱ {item.amount.toFixed(2)}</p>

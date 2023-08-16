@@ -8,10 +8,15 @@ import { useEffect, useState } from "react";
 import CalendarItemDialog from "./CalendarItemDialog";
 
 const Calendar = () => {
-  const calendar = makeCalendar();
+  const calendar = makeCalendar("August", "2023");
   const calendarMonth = MONTHS[moment(new Date()).month()];
   const numberOfDaysInMonth = moment(new Date()).daysInMonth();
   const calendarYear = moment(new Date()).year();
+
+  const [calendarTest, setCalendarTest] = useState<number[]>([]);
+  const [calendarMonthTest, setCalendarMonthTest] = useState("");
+  const [calendarYearTest, setCalendarYearTest] = useState(0);
+  const [numberOfDaysInMonthTest, setNumberOfDaysInMonthTest] = useState(0);
 
   const { data, isLoading, refetch } = useQuery(
     "calendar_expenses_list",
@@ -21,6 +26,7 @@ const Calendar = () => {
         numberOfDaysInMonth,
         calendarYear
       );
+      console.log("expense list data: ", expenseList)
       return expenseList;
     }
   );
@@ -44,7 +50,7 @@ const Calendar = () => {
     <>
       {data && calendar && calendar.length > 0 ? (
         <>
-          <div className="text-xl mb-3">{`${calendarMonth} ${calendarYear}`}</div>
+          <div className="text-xl mb-5 mt-7">{`${calendarMonth} ${calendarYear}`}</div>
           <div
             key={``}
             className="rounded-md bg-600 w-full min-h-[130px] p-2 grid xxxl:grid-cols-7 xxl:grid-cols-5 xl:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-2"
@@ -72,7 +78,7 @@ const Calendar = () => {
             isOpen={isOpen}
             expenses={data.filter(
               (expense: ExpenseType) =>
-                moment(expense.dateOfTransaction).format("YYYY-MM-DD") ===
+                moment(`${expense.dateOfTransaction}`).format("YYYY-MM-DD") ===
                 moment(`${currentDate}`).format("YYYY-MM-DD")
             )}
             calendarCurrentDate={currentDate}

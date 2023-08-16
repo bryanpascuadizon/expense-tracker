@@ -19,6 +19,7 @@ export const MONTHS = [
   "December",
 ];
 export const TYPEOPTIONS = [
+  { value: "" },
   { value: "Cash" },
   { value: "Credit" },
   { value: "Debit" },

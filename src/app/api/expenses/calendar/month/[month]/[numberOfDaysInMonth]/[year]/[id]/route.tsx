@@ -1,5 +1,7 @@
 import Expense from "@/models/expense";
+import { MONTHS } from "@/utils/constants";
 import { ExpenseType } from "@/utils/types";
+import moment from "moment";
 import { NextRequest, NextResponse } from "next/server";
 
 interface CalendarProps {
@@ -12,8 +14,11 @@ interface CalendarProps {
 }
 export const GET = async (req: NextRequest, { params }: CalendarProps) => {
   try {
-    const startDate = `${params.year}-01-${params.month}`;
-    const endDate = `${params.year}-${params.numberOfDaysInMonth}-${params.month}`;
+    const startDate = `${params.year}-01-${params.month}`; // Current Month Selected
+    const endDate = `${params.year}-01-${
+      //Next Month of Current Month Selected
+      MONTHS[moment(new Date()).month() + 1]
+    }`;
 
     const expenseList: ExpenseType[] = await Expense.find({
       dateOfTransaction: { $gte: startDate, $lte: endDate },

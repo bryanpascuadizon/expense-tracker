@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import TagDialog from "./TagDialog";
-import { Tag } from "@/utils/types";
+import { TagType } from "@/utils/types";
 
 interface ListOfTagsProps {
-  tags: Tag[];
+  tags: TagType[];
 }
 
 const ListofTags = (tagList: ListOfTagsProps) => {
@@ -21,7 +21,7 @@ const ListofTags = (tagList: ListOfTagsProps) => {
     <>
       <div className="">
         <div className="flex mb-5">
-          <p className="font-bold text-lg flex-grow self-center">
+          <p className="font-bold text-xl flex-grow self-center">
             List of Tags
           </p>
           <button
@@ -46,7 +46,7 @@ const ListofTags = (tagList: ListOfTagsProps) => {
 
           {tags && tags.length > 0 ? (
             <tbody>
-              {tags.map((tag: Tag) => (
+              {tags.map((tag: TagType) => (
                 <tr className="" key={tag._id}>
                   <td className="text-sm text-center p-3">{tag.name}</td>
                   <td className="text-sm text-center p-3">

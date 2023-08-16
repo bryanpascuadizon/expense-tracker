@@ -73,7 +73,7 @@ body {
 }
 
 .period {
-  @apply text-xs font-bold
+  @apply text-sm font-bold
 }
 
 .summary_see_more {
@@ -88,7 +88,7 @@ body {
 
 .transactions_title, 
 .subscriptions_title {
-  @apply text-lg font-bold
+  @apply text-2xl
 }
 
 .transactions_data_item, 
@@ -129,7 +129,7 @@ body {
 
 .td_item_tag, .sd_item_tag,
 .expense_item_tag{
-  @apply font-bold text-xs 
+  @apply font-bold text-sm
 }
 
 .sd_item_title {
@@ -138,5 +138,5 @@ body {
 
 .td_item_date, .sd_item_date, 
 .expense_item_date {
-  @apply font-bold text-xs text-right font-bold
+  @apply font-bold text-sm text-right
 }

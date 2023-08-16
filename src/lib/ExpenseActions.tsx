@@ -39,6 +39,7 @@ export const fetchUserExpensesWithDate = async (
   return expenseList.data as ExpenseType[];
 };
 
+/*  Gets all expenses of the user by a specific month */
 export const fetchUserExepensesByMonth = async (
   month: string,
   numberOfDaysInMonth: number,
@@ -184,12 +185,12 @@ export const getExpensePeriod = (expense: ExpenseType) => {
   return isPeriod;
 };
 
-/* Calendar Template */
-export const makeCalendar = () => {
+/* This will render a template of a calendar for a specific month */
+export const makeCalendar = (month: string, year: string) => {
   let plotCalendar: number[] = [];
   let finalCalendar: number[] = [];
 
-  const date = moment(new Date());
+  const date = moment(`${year}-${month}-01`);
 
   const numberOfDaysInMonth = date.daysInMonth();
   const currentYear = date.year();
