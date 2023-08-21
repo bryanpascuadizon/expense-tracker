@@ -5,10 +5,19 @@ import React from "react";
 type CalendarItemExpenseListProps = {
   expenses: ExpenseType[];
   calendarCurrentDate: string;
+  setExpenseItem: ({}: ExpenseType) => void;
+  setIsEdit: (isEdit: boolean) => void;
+  setIsDelete: (isDelete: boolean) => void;
 };
 
 const CalendarItemExpenseList = (expenseList: CalendarItemExpenseListProps) => {
-  const { expenses, calendarCurrentDate } = expenseList;
+  const {
+    expenses,
+    calendarCurrentDate,
+    setExpenseItem,
+    setIsEdit,
+    setIsDelete,
+  } = expenseList;
 
   return (
     <>
@@ -21,7 +30,7 @@ const CalendarItemExpenseList = (expenseList: CalendarItemExpenseListProps) => {
           <tr className="hidden xl:table-row text-left">
             <th className="text-lg p-3">Name</th>
             <th className="text-lg p-3">Amount</th>
-            <th className="text-lg p-3">Date of Transaction</th>
+            {/* <th className="text-lg p-3">Date of Transaction</th> */}
             <th className="text-lg p-3">Type</th>
             <th className="text-lg p-3">Tag</th>
             <th className="text-lg p-3 text-center">Edit</th>
@@ -39,9 +48,9 @@ const CalendarItemExpenseList = (expenseList: CalendarItemExpenseListProps) => {
               <tr className="hidden xl:table-row text-left" key={item._id}>
                 <td className="text-sm p-3">{item.name}</td>
                 <td className="text-sm p-3">₱ {item.amount.toFixed(2)}</td>
-                <td className="text-sm p-3">
+                {/* <td className="text-sm p-3">
                   {moment(`${item.dateOfTransaction}`).format("MMMM DD, YYYY")}
-                </td>
+                </td> */}
                 <td className="text-sm p-3">{item.type}</td>
                 <td className="text-sm p-3">
                   <p className={`text-[${item.tag?.color}]`}>
@@ -51,24 +60,11 @@ const CalendarItemExpenseList = (expenseList: CalendarItemExpenseListProps) => {
                 <td className="text-center">
                   <button
                     className="p-3"
-                    // onClick={() => {
-                    //   setShow(true);
-                    //   setProcedure("Edit");
-                    //   setExpense({
-                    //     _id: item._id,
-                    //     name: item.name,
-                    //     amount: item.amount,
-                    //     dateOfTransaction: item.dateOfTransaction,
-                    //     type: item.type,
-                    //     tag: {
-                    //       _id: item.tag._id,
-                    //       name: item.tag.name,
-                    //       color: item.tag.color,
-                    //       user_id: item.tag.user_id,
-                    //     },
-                    //     user_id: item.user_id,
-                    //   });
-                    // }}
+                    onClick={() => {
+                      setExpenseItem(item);
+                      setIsEdit(true);
+                      setIsDelete(false);
+                    }}
                   >
                     <span className="material-symbols-outlined">edit</span>
                   </button>
@@ -76,24 +72,11 @@ const CalendarItemExpenseList = (expenseList: CalendarItemExpenseListProps) => {
                 <td className="text-center">
                   <button
                     className="p-3"
-                    // onClick={() => {
-                    //   setShow(true);
-                    //   setProcedure("Delete");
-                    //   setExpense({
-                    //     _id: item._id,
-                    //     name: item.name,
-                    //     amount: item.amount,
-                    //     dateOfTransaction: item.dateOfTransaction,
-                    //     type: item.type,
-                    //     tag: {
-                    //       _id: item.tag._id,
-                    //       name: item.tag.name,
-                    //       color: item.tag.color,
-                    //       user_id: item.tag.user_id,
-                    //     },
-                    //     user_id: item.user_id,
-                    //   });
-                    // }}
+                    onClick={() => {
+                      setExpenseItem(item);
+                      setIsDelete(true);
+                      setIsEdit(false);
+                    }}
                   >
                     <span className="material-symbols-outlined">delete</span>
                   </button>

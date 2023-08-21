@@ -71,11 +71,16 @@ export const PATCH = async (req: NextRequest) => {
 
     const existingExpense = await Expense.findById(_id);
 
+    if (!existingExpense) {
+      return new NextResponse("Expense Not Found.", { status: 400 });
+    }
+
     existingExpense.name = name;
     existingExpense.amount = amount;
     existingExpense.dateOfTransaction = dateOfTransaction;
     existingExpense.type = type;
-    existingExpense.tag = tag;
+    existingExpense.tag = tag._id;
+
     existingExpense.save();
 
     return new NextResponse(JSON.stringify(existingExpense), { status: 200 });

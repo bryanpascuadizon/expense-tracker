@@ -30,7 +30,7 @@ const Sidebar = () => {
         </Link>
         <Link className="sidebar_item" href="/expenses">
           <p className="material-symbols-outlined sidebar_icon">wallet</p>
-          <p className="sidebar_text">Expenses</p>
+          <p className="sidebar_text">Manage Expenses</p>
         </Link>
         {/* <Link className="sidebar_item" href="/budget_plans">
           <p className="material-symbols-outlined sidebar_icon">menu_book</p>

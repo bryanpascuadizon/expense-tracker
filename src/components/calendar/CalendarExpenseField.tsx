@@ -1,7 +1,7 @@
 import { TagType } from "@/utils/types";
 import React from "react";
 
-type AddExpenseFieldProps = {
+type CalendarExpenseFieldProps = {
   id: string | number;
   name: string | number;
   value: string | number;
@@ -13,7 +13,7 @@ type AddExpenseFieldProps = {
   selectOptions?: {}[];
 };
 
-const CalendarAddExpenseField = (props: AddExpenseFieldProps) => {
+const CalendarExpenseField = (props: CalendarExpenseFieldProps) => {
   const {
     id,
     name,
@@ -90,4 +90,4 @@ const CalendarAddExpenseField = (props: AddExpenseFieldProps) => {
   );
 };
 
-export default CalendarAddExpenseField;
+export default CalendarExpenseField;

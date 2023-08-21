@@ -26,7 +26,6 @@ const Calendar = () => {
         numberOfDaysInMonth,
         calendarYear
       );
-      console.log("expense list data: ", expenseList)
       return expenseList;
     }
   );

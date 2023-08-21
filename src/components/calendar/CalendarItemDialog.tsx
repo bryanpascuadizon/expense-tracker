@@ -1,7 +1,7 @@
 import { ExpenseType } from "@/utils/types";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CalendarItemExpenseList from "./CalendarItemExpenseList";
-import CalendarAddExpense from "./CalendarAddExpense";
+import CalendarExpense from "./CalendarExpense";
 
 interface CalanderItemDialogProps {
   isOpen: boolean;
@@ -19,6 +19,11 @@ const CalendarItemDialog = (expenseList: CalanderItemDialogProps) => {
     calendarCurrentDate,
     refetch,
   } = expenseList;
+
+  const [expenseItem, setExpenseItem] = useState<ExpenseType>(Object);
+  const [isEdit, setIsEdit] = useState(false);
+  const [isDelete, setIsDelete] = useState(false);
+
   return (
     <div
       className={`${
@@ -36,15 +41,32 @@ const CalendarItemDialog = (expenseList: CalanderItemDialogProps) => {
       >
         <button
           className="absolute cursor-pointer right-[20px]"
-          onClick={handleCalendarItemClose}
+          onClick={() => {
+            handleCalendarItemClose();
+            setExpenseItem(Object);
+            setIsEdit(false);
+            setIsDelete(false);
+          }}
         >
           <span className="material-symbols-outlined">close</span>
         </button>
-        <CalendarAddExpense
+        <CalendarExpense
           refetch={refetch}
           calendarCurrentDate={calendarCurrentDate}
+          expenseItem={expenseItem}
+          isEdit={isEdit}
+          isDelete={isDelete}
+          setIsEdit={setIsEdit}
+          setIsDelete={setIsDelete}
+          setExpenseItem={setExpenseItem}
         />
-        <CalendarItemExpenseList expenses={expenses} calendarCurrentDate={calendarCurrentDate}/>
+        <CalendarItemExpenseList
+          expenses={expenses}
+          calendarCurrentDate={calendarCurrentDate}
+          setExpenseItem={setExpenseItem}
+          setIsEdit={setIsEdit}
+          setIsDelete={setIsDelete}
+        />
       </div>
     </div>
   );

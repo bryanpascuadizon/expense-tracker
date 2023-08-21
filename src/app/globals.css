@@ -49,7 +49,7 @@ body {
 }
 
 .module_title {
-  @apply text-3xl text-black mb-5
+  @apply text-3xl text-black mb-5 mt-5
 }
 
 .module_content {
